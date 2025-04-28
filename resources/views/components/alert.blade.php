@@ -69,5 +69,5 @@
             alert.classList.add('opacity-0', 'translate-y-5');
             setTimeout(() => alert.remove(), 700);
         }
-    }, 2000);
+    }, 4000);
 </script>

@@ -44,6 +44,7 @@
     </div>
 
     <script>
+        
         function submitRating(productId, ratingValue) {
             fetch('/ratings', {
                 method: 'POST',
@@ -63,17 +64,27 @@
                 if (!contentType || !contentType.includes("application/json")) {
                     const text = await response.text();
                     if (text.startsWith('<!DOCTYPE html>')) {
-                        alert("Debes iniciar sesión para calificar este producto.");
+                        import('/js/alerts/toast.js').then(module => {
+                            const { showToast } = module;
+                            showToast('warning', "Debes iniciar sesión para calificar este producto.");
+                        });
                         return;
                     }
                 }
 
                 const data = await response.json();
                 console.log("Rating enviado correctamente:", data);
-                // Mostrar mensaje de éxito (puedes usar tu componente de alerta)
+                import('/js/alerts/toast.js').then(module => {
+                    const { showToast } = module;
+                    showToast('success', "Calificación enviada correctamente.");
+                });
             })
             .catch(error => {
                 console.error("Error al enviar calificación:", error);
+                import('/js/alerts/toast.js').then(module => {
+                    const { showToast } = module;
+                    showToast('error', "Error al enviar calificación.");
+                });
             });
         }
 </script>
@@ -87,7 +98,7 @@ AOS.init();
 
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-<div x-data="{ open: false }" class="fixed bottom-5 right-5 z-50 text-white">
+<div x-data="{ open: false }" class="fixed bottom-5 right-5 z-50 text-white x-cloak" x-cloak>
     <!-- Botón de WhatsApp (icono SVG incluido) -->
     <button @click="open = !open"
         class="bg-green-500 p-3 rounded-full shadow-lg hover:scale-110 transition flex items-center justify-center w-14 h-14">
@@ -109,13 +120,8 @@ AOS.init();
         target="_blank">
             Ir a WhatsApp
         </a>
-   </div>
+    </div>
 </div>
-
-
-
-
-
-
+<script src="{{ asset('js/alerts/toast.js') }}" type="module"></script>
 </body>
 </html>

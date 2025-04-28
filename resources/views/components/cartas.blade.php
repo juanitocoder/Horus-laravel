@@ -48,7 +48,7 @@
                                     deleteUrl: '{{ route('product.destroy', $producto->id) }}',
                                     addToCartUrl: '{{ route('cart.add', $producto->id) }}'
                                 })"
-                                class="w-full block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300"
+                                class="w-full block text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center transition-all duration-300 cursor-pointer"
                             >
                                 Ver detalle
                             </span>
@@ -117,9 +117,6 @@
                             class="rounded-full bg-blue-50 p-2 text-blue-600 hover:bg-blue-100 transition-colors duration-300"
                             aria-label="Ver más detalles"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
                         </button>
                     </div>
                 </div>
