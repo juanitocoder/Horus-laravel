@@ -7,11 +7,36 @@
         comentarioEditado: '',
         auth: {{ auth()->check() ? 'true' : 'false' }},
         userId: {{ auth()->check() ? auth()->id() : 'null' }},
+        // Nuevo sistema de alertas
+        alert: {
+            show: false,
+            message: '',
+            type: 'success', // 'success', 'error', 'info'
+            timeout: null
+        },
+        
+        // Muestra una alerta dentro del modal
+        showAlert(message, type = 'success') {
+            this.alert.show = true;
+            this.alert.message = message;
+            this.alert.type = type;
+            
+            // Limpia cualquier timeout existente
+            if (this.alert.timeout) {
+                clearTimeout(this.alert.timeout);
+            }
+            
+            // Auto-ocultar después de 3 segundos
+            this.alert.timeout = setTimeout(() => {
+                this.alert.show = false;
+            }, 3000);
+        },
 
         abrirModal(producto) {
             this.productoActivo = { ...producto, comentarios: [] };
             this.showModal = true;
             document.body.style.overflow = 'hidden';
+            this.alert.show = false; // Reinicia cualquier alerta al abrir el modal
 
             fetch(`/productos/${producto.id}/comentarios`)
                 .then(response => response.json())
@@ -28,15 +53,16 @@
             this.editandoComentarioId = null;
             this.comentarioEditado = '';
             document.body.style.overflow = '';
+            this.alert.show = false; // Limpia cualquier alerta al cerrar
         },
         enviarComentario() {
             if (!this.auth) {
-                alert('Debes iniciar sesión para comentar.');
+                this.showAlert('Debes iniciar sesión para comentar.', 'error');
                 return;
             }
 
             if (!this.comentario.trim()) {
-                alert('El comentario no puede estar vacío');
+                this.showAlert('El comentario no puede estar vacío', 'error');
                 return;
             }
 
@@ -50,17 +76,17 @@
             })
             .then(response => {
                 if (!response.ok) {
-                return response.json().then(error => { throw new Error(error.message) });
+                    return response.json().then(error => { throw new Error(error.message) });
                 }
                 return response.json();
             })
             .then(data => {
                 this.productoActivo.comentarios.push(data);
                 this.comentario = '';
-                alert('Comentario enviado exitosamente.');
+                this.showAlert('Comentario enviado exitosamente.', 'success');
             })
             .catch(error => {
-                alert(error.message || 'Error al enviar el comentario');
+                this.showAlert(error.message || 'Error al enviar el comentario', 'error');
             });
         },
         iniciarEdicion(comentario) {
@@ -73,7 +99,7 @@
         },
         actualizarComentario(id) {
             if (!this.comentarioEditado.trim()) {
-                alert('El comentario no puede estar vacío');
+                this.showAlert('El comentario no puede estar vacío', 'error');
                 return;
             }
 
@@ -93,10 +119,11 @@
                 const index = this.productoActivo.comentarios.findIndex(c => c.id === id);
                 if (index !== -1) this.productoActivo.comentarios[index] = data;
                 this.cancelarEdicion();
+                this.showAlert('Comentario actualizado correctamente.', 'success');
             })
             .catch(error => {
                 console.error(error);
-                alert('Error al actualizar el comentario');
+                this.showAlert('Error al actualizar el comentario', 'error');
             });
         },
         eliminarComentario(id) {
@@ -111,10 +138,11 @@
             .then(response => {
                 if (!response.ok) throw new Error('Error al eliminar el comentario');
                 this.productoActivo.comentarios = this.productoActivo.comentarios.filter(c => c.id !== id);
+                this.showAlert('Comentario eliminado correctamente.', 'success');
             })
             .catch(error => {
                 console.error(error);
-                alert('Error al eliminar el comentario');
+                this.showAlert('Error al eliminar el comentario', 'error');
             });
         }
     }"
@@ -258,6 +286,52 @@
             x-transition:leave-end="opacity-0 transform scale-95"
             class="bg-white rounded-3xl shadow-2xl w-full max-w-xl p-0 relative overflow-hidden"
         >
+            <!-- Sistema de alertas en el modal -->
+            <div 
+                x-show="alert.show"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform -translate-y-4"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform -translate-y-4"
+                :class="{
+                    'bg-green-100 border-green-500 text-green-700': alert.type === 'success',
+                    'bg-red-100 border-red-500 text-red-700': alert.type === 'error',
+                    'bg-blue-100 border-blue-500 text-blue-700': alert.type === 'info'
+                }"
+                class="absolute top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-3 rounded border-l-4 shadow-md w-5/6 flex items-center"
+            >
+                <!-- Icono según el tipo de alerta -->
+                <div class="mr-3">
+                    <template x-if="alert.type === 'success'">
+                        <svg class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </template>
+                    <template x-if="alert.type === 'error'">
+                        <svg class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </template>
+                    <template x-if="alert.type === 'info'">
+                        <svg class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </template>
+                </div>
+                <div x-text="alert.message"></div>
+                <!-- Botón de cerrar alerta -->
+                <button 
+                    @click="alert.show = false"
+                    class="ml-auto"
+                >
+                    <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
             <!-- Botón de cerrar -->
             <button 
                 @click="cerrarModal" 
