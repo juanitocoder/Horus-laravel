@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrito/eliminar/{item}', [CartController::class, 'remove'])->name('cart.remove');
     Route::post('/carrito/aumentar/{item}', [CartController::class, 'increase'])->name('cart.increase');
     Route::post('/carrito/disminuir/{item}', [CartController::class, 'decrease'])->name('cart.decrease');
+    Route::get('/admin/product/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
+    Route::put('/admin/product/{product}', [ProductController::class, 'update'])->name('product.update');
 });
 
 // --- RECUPERAR CONTRASEÑA ---
