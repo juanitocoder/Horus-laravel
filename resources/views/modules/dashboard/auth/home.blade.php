@@ -180,6 +180,96 @@
     </div>
 
     
+    <div
+    x-data="{
+        active: 0,
+        promos: [
+            {
+                title: '¡Promoción 2x1 en pulseras!',
+                link: '/catalogo#promocion-2x1',
+                items: [
+                    { img: '{{ asset('images/Promos/Promo4.jpg') }}', text: '🎉 ¡Promoción 2x1 en pulseras!' },
+                    { img: '{{ asset('images/Promos/Promo2.jpg') }}', text: '🎉 ¡Compra 3 lleva 4!' },
+                    { img: '{{ asset('images/Promos/Promo3.jpg') }}', text: '🎉 ¡Pulseras edición limitada!' }
+                ]
+            },
+            {
+                title: 'Día de la Madre',
+                link: '/ver-video',
+                items: [
+                    { img: '{{ asset('images/Promos/DiaMadre1.jpg') }}', text: '💖 Celebra con algo especial' },
+                    { img: '{{ asset('images/Promos/DiaMadre2.jpg') }}', text: '💐 Pulseras para mamá' },
+                    { img: '{{ asset('images/Promos/DiaMadre3.jpg') }}', text: '💐 Promoción especial' }
+                ]
+            },
+            {
+                title: 'Nueva Colección',
+                link: '/coleccion',
+                items: [
+                    { img: '{{ asset('images/Promos/Nuevo1.jpg') }}', text: '🛍 Lo nuevo' },
+                    { img: '{{ asset('images/Promos/Nuevo2.jpg') }}', text: '🛍 Diseño exclusivo' },
+                    { img: '{{ asset('images/Promos/Nuevo3.jpg') }}', text: '🛍 Limited Edition' }
+                ]
+            }
+        ],
+        next() {
+            this.active = (this.active + 1) % this.promos.length;
+        },
+        prev() {
+            this.active = (this.active - 1 + this.promos.length) % this.promos.length;
+        }
+    }"
+    x-init="setInterval(() => { active = (active + 1) % promos.length }, 5000)"
+    class="bg-[#101324] font-[Poppins] rounded-xl px-4 py-8 text-white relative shadow-md text-center max-w-[90%] mx-auto mt-8 overflow-visible"
+>
+
+    <!-- Flechas -->
+    <button @click="prev"
+        class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full backdrop-blur z-10 transition duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+        </svg>
+    </button>
+
+    <button @click="next"
+        class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-2 rounded-full backdrop-blur z-10 transition duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-7 sm:w-7" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+        </svg>
+    </button>
+
+    <!-- Título -->
+    <h2 class="text-2xl font-bold mb-6" x-text="promos[active].title"></h2>
+
+    <!-- Carrusel -->
+    <div x-transition
+         class="relative">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 px-4">
+            <template x-for="(item, idx) in promos[active].items" :key="idx">
+                <div class="flex flex-col items-center">
+                    <template x-if="item.img">
+                        <img 
+                            :src="item.img" 
+                            alt="Promoción"
+                            class="rounded-lg mb-4 max-h-72 w-full object-cover"
+                        >
+                    </template>
+                    <p class="text-base" x-text="item.text"></p>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Botón general -->
+    <div class="mt-8 flex justify-center">
+        <a :href="promos[active].link"
+            class="inline-block rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-3 text-white font-semibold shadow hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+            ¡Comprar ahora!
+        </a>
+    </div>
+</div>
 
     
     <!-- Sección Nosotros -->
