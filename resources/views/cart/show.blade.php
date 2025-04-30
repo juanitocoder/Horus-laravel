@@ -18,8 +18,8 @@
                     <div class="bg-white/10 backdrop-blur-sm shadow-xl rounded-2xl p-5 flex flex-col sm:flex-row items-center sm:items-start gap-6 border border-gray-700 transition-all hover:border-blue-500">
                         <div class="relative w-28 h-28">
                             <img src="{{ asset('storage/' . $item->product->image) }}"
-                                 alt="{{ $item->product->name }}"
-                                 class="w-28 h-28 rounded-xl object-cover shadow-lg border border-gray-300">
+                                alt="{{ $item->product->name }}"
+                                class="w-28 h-28 rounded-xl object-cover shadow-lg border border-gray-300">
                             <div class="absolute -top-3 -right-3 bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg">
                                 {{ $item->quantity }}
                             </div>

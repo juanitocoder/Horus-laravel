@@ -12,6 +12,6 @@
     @yield('login')
     @yield('register')
     @yield('olvido')
-  
+
 </body>
 </html>

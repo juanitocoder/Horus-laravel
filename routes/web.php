@@ -14,6 +14,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GraficaController;
 use App\Http\Controllers\PerfilController;
+use App\Http\Controllers\CommentController;
 
 
 
@@ -140,4 +141,14 @@ Route::post('/reset-password', function (Request $request) {
 Route::get('/perfil', [PerfilController::class, 'editar'])->name('perfil.editar');
 Route::put('/perfil', [PerfilController::class, 'actualizar'])->name('perfil.actualizar');
 
+// Nosotroa
 Route::view('/nosotros', 'modules.dashboard.auth.nosotros')->name('nosotros');
+
+
+// Comentarios
+Route::get('/productos/{producto}/comentarios', [CommentController::class, 'index']);
+Route::post('/productos/{id}/comentarios', [CommentController::class, 'store']);
+
+Route::put('/comentarios/{id}', [CommentController::class, 'update'])->name('comments.update');
+Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
