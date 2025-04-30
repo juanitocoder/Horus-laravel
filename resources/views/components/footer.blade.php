@@ -98,12 +98,10 @@
             
             <!-- Bloque de Pago -->
             <div class="flex justify-center mt-8">
-                <div class="flex gap-3 items-center bg-white/5 rounded-lg px-4 py-2">
+                <div class="flex gap-3 items-center bg-white rounded-lg px-4 py-2">
                     <span class="text-xs text-gray-400">Métodos de pago:</span>
                     <div class="flex gap-2">
-                        <img src="{{ asset('images/visa.svg') }}" alt="Visa" class="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity">
-                        <img src="{{ asset('images/mastercard.svg') }}" alt="Mastercard" class="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity">
-                        <img src="{{ asset('images/paypal.svg') }}" alt="PayPal" class="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity">
+                        <img src="{{ asset('images/nequi-3.svg') }}" alt="Nequi" class="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity">
                     </div>
                 </div>
             </div>
