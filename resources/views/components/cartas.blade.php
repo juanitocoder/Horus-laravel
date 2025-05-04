@@ -358,16 +358,25 @@
             
             <!-- Información del producto -->
             <div class="p-6 space-y-4 text-center">
-                <!-- Nombre del producto -->
-                <h2 class="text-3xl font-extrabold text-blue-900" x-text="productoActivo?.name"></h2>
 
                 <!-- Descripción -->
                 <p class="text-gray-700 text-sm max-w-xl mx-auto" x-text="productoActivo?.description"></p>
 
                 <!-- Precio -->
-                <div class="text-xl font-bold text-yellow-500" x-text="productoActivo?.price"></div>
+                <div class="text-xl font-bold text-black" x-text="productoActivo?.price"></div>
 
                 <!-- Botón agregar al carrito -->
+
+                @guest
+                    <button
+                    @if(session('alert'))
+                        <x-alert type="success" :message="session('alert')" />
+                   
+                        class="mt-2 px-6 py-2 bg-blue-800 hover:bg-blue-900 text-white rounded-full font-semibold shadow-md transition">
+                        🛒 Agregar al carrito
+                    </button>
+                    @endif
+                @endguest
                 <template x-if="productoActivo?.role === 'user'">
                     <form :action="productoActivo?.addToCartUrl" method="POST" class="flex justify-center">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
