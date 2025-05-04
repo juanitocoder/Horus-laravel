@@ -1,4 +1,4 @@
-<div class="relative mt-16">
+<div>
     <footer class="bg-gradient-to-b from-[#2b2d42] to-[#1a1b2e] text-white pt-16 pb-8 px-4 lg:px-12">
         <div class="container mx-auto">
             <!-- Footer Content -->
