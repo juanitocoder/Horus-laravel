@@ -81,6 +81,16 @@
                                 <option value="{{ $categoria->id }}">{{ $categoria->name }}</option>
                             @endforeach
                         </select>
+                        <!-- Campo de tipo de promoción (visible solo si se selecciona Promociones) -->
+                            <div id="promotionTypeField" class="hidden">
+                                <label for="promotion_type" class="block text-sm font-medium text-[#f5e7d5] mb-1">Tipo de Promoción</label>
+                                <select name="promotion_type" id="promotion_type"
+                                    class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-blue-600 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#cfbea7] focus:border-transparent transition duration-200">
+                                    <option value="" disabled selected>Selecciona tipo de promoción</option>
+                                    <option value="15_descuento">Descuento 15%</option>
+                                    <option value="2x1">2x1</option>
+                                </select>
+                            </div>
                         @error('category_id')
                             <p class="text-red-400 text-xs mt-1">{{ $message }}</p>
                         @enderror
@@ -134,5 +144,14 @@
             <p>Los productos nuevos estarán disponibles para su visualización inmediatamente después de ser agregados.</p>
         </div>
     </div>
+    <script>
+document.getElementById('category_id').addEventListener('change', function () {
+    const selectedValue = this.value;
+    const promotionField = document.getElementById('promotionTypeField');
+
+    // Mostrar si es la categoría de promociones (id = 4)
+    promotionField.classList.toggle('hidden', selectedValue != 4);
+});
+</script>
 </div>
 @endsection

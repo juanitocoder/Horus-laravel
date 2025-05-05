@@ -19,6 +19,16 @@ class ProductController extends Controller
         return view('modules.dashboard.auth.hombres', compact('productos'));
     }
     
+    public function promo()
+    {
+        $productos = Product::with('category')
+            ->whereHas('category', function ($q) {
+                $q->where('name', 'promociones');
+            })
+            ->get();
+    
+        return view('modules.dashboard.auth.promo', compact('productos'));
+    }
     public function mujeres()
     {
         $productos = Product::with('category')
@@ -58,7 +68,8 @@ class ProductController extends Controller
         return view('modules.dashboard.auth.crear', compact('categorias'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request )
+    
     {
         $request->validate([
             'name' => 'required',
@@ -66,20 +77,25 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
             'category_id' => 'required|exists:categories,id',
+            'promotion_type' => 'nullable|string',
+            
         ]);
 
         $rutaImagen = null;
         if ($request->hasFile('image')) {
             $rutaImagen = $request->file('image')->store('productos', 'public');
         }
-
-        Product::create([
+        
+        $product = Product::create([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
             'image' => $rutaImagen,
             'category_id' => $request->category_id,
         ]);
+
+        $product->promotion_type = $request->promotion_type;
+        $product->save();
 
         return redirect()->route('product.create')->with('success', 'Producto agregado correctamente.');
     }

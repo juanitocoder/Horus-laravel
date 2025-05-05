@@ -32,6 +32,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/hombres', [ProductController::class, 'hombres'])->name('.hombres');
 Route::get('/mujeres', [ProductController::class, 'mujeres'])->name('.mujeres');
 Route::get('/parejas', [ProductController::class, 'parejas'])->name('.parejas');
+Route::get('/promo', [ProductController::class, 'promo'])->name('promo');
 
 // Carrito
 Route::post('/cart/{product}', [CartController::class, 'add'])->name('cart.add');

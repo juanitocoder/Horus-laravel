@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
-@section('parejas')
+@section('promo')
 
+<div>
+
+
+</div>
 <h2 class="relative text-3xl font-extrabold text-center mb-8 text-white font-cinzel">
-  Catálogo Mujeres
-  
+  Promociones
 </h2>
 
-<x-botones_catalogo />
-<x-cartas :productos="$productos" />
+
+<x-cartas :productos="$productos"/>
 
 @endsection
