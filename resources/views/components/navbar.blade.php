@@ -73,6 +73,7 @@
                             </svg>
                             Nuevo Producto
                         </a>
+                        <a href="{{ route('admin.comentarios') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition flex items-center">Gestionar Comentarios</a>
                     </div>
                 @endif
 

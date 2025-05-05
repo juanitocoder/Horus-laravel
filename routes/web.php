@@ -154,3 +154,9 @@ Route::post('/productos/{id}/comentarios', [CommentController::class, 'store']);
 Route::put('/comentarios/{id}', [CommentController::class, 'update'])->name('comments.update');
 Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+// Comentarios admin
+Route::get('/admin/comentarios', [CommentController::class, 'vistaComentarios'])->name('admin.comentarios');
+Route::delete('/admin/comentarios/{id}', [CommentController::class, 'destroyAdmin'])->name('admin.comentarios.eliminar');
+
+
+
