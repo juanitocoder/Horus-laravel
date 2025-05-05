@@ -37,6 +37,7 @@
             @yield('parejas')
             @yield('crear')
             @yield('scripts')
+            @yield('promo')
         </main>
         
         <!-- Footer -->

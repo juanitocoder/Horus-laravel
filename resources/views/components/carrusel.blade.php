@@ -6,27 +6,27 @@
                 title: '¡Promoción 2x1 en pulseras!',
                 link: '/catalogo#promocion-2x1',
                 items: [
-                    { img: '{{ asset('images/Promos/Promo4.jpg') }}', text: '🎉 ¡Promoción 2x1 en pulseras!' },
-                    { img: '{{ asset('images/Promos/Promo2.jpg') }}', text: '🎉 ¡Compra 3 lleva 4!' },
-                    { img: '{{ asset('images/Promos/Promo3.jpg') }}', text: '🎉 ¡Pulseras edición limitada!' }
+                    { img: '{{ asset('images/Promos/Promo4.jpg') }}', badge: '2x1' },
+                    { img: '{{ asset('images/Promos/Promo2.jpg') }}', badge: '3x4' },
+                    { img: '{{ asset('images/Promos/Promo3.jpg') }}', badge: 'LIMITADO' }
                 ]
             },
             {
                 title: 'Día de la Madre',
                 link: '/ver-video',
                 items: [
-                    { img: '{{ asset('images/Promos/DiaMadre1.jpg') }}', text: '💖 Celebra con algo especial' },
-                    { img: '{{ asset('images/Promos/DiaMadre2.jpg') }}', text: '💐 Pulseras para mamá' },
-                    { img: '{{ asset('images/Promos/DiaMadre3.jpg') }}', text: '💐 Promoción especial' }
+                    { img: '{{ asset('images/Promos/DiaMadre1.jpg') }}', badge: 'MAMÁ' },
+                    { img: '{{ asset('images/Promos/DiaMadre2.jpg') }}', badge: '-20%' },
+                    { img: '{{ asset('images/Promos/DiaMadre3.jpg') }}', badge: 'REGALO' }
                 ]
             },
             {
                 title: 'Nueva Colección',
                 link: '/coleccion',
                 items: [
-                    { img: '{{ asset('images/Promos/Nuevo1.jpg') }}', text: '🛍 Lo nuevo' },
-                    { img: '{{ asset('images/Promos/Nuevo2.jpg') }}', text: '🛍 Diseño exclusivo' },
-                    { img: '{{ asset('images/Promos/Nuevo3.jpg') }}', text: '🛍 Limited Edition' }
+                    { img: '{{ asset('images/Promos/Nuevo1.jpg') }}', badge: 'NUEVO' },
+                    { img: '{{ asset('images/Promos/Nuevo2.jpg') }}', badge: 'EXCLUSIVO' },
+                    { img: '{{ asset('images/Promos/Nuevo3.jpg') }}', badge: 'LIMITED' }
                 ]
             }
         ],
@@ -50,13 +50,15 @@
         setInterval(() => { active = (active + 1) % promos.length }, 7000);
         $nextTick(() => initAOS());
     "
-    class="font-['Montserrat'] rounded-xl px-4 py-12 text-white relative text-center max-w-[95%] mx-auto mt-8 overflow-hidden"
+    class="font-['Poppins'] rounded-xl px-4 py-12 text-white relative text-center max-w-[95%] mx-auto mt-8 overflow-hidden"
 >
     <!-- Importación de bibliotecas -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <!-- Importación de fuentes más llamativas -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Righteous&display=swap" rel="stylesheet">
 
     <!-- Indicador de diapositivas -->
     <div class="absolute bottom-2 left-0 right-0 flex justify-center space-x-2 z-10 animate__animated animate__fadeInUp animate__delay-1s">
@@ -64,7 +66,7 @@
             <button 
                 @click="active = index" 
                 :class="{'bg-white': active === index, 'bg-white/30': active !== index}"
-                class="w-2 h-2 rounded-full transition-all duration-300"
+                class="w-3 h-3 rounded-full transition-all duration-300"
             ></button>
         </template>
     </div>
@@ -86,9 +88,9 @@
         </svg>
     </button>
 
-    <!-- Título animado -->
+    <!-- Título animado con tipografía más llamativa -->
     <h2 
-        class="text-3xl md:text-4xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-blue-300 tracking-tight animate__animated" 
+        class="font-['Righteous'] text-4xl md:text-5xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 tracking-wider animate__animated drop-shadow-lg" 
         x-text="promos[active].title"
         :class="'animate__' + ['bounceIn', 'fadeInDown', 'zoomIn'][active % 3]"
         x-transition:enter="transition ease-out duration-500"
@@ -111,46 +113,48 @@
                      data-aos="fade-up" 
                      :data-aos-delay="idx * 100">
                     <template x-if="item.img">
-                        <div class="relative overflow-hidden w-full h-80 md:h-96"
+                        <div class="relative overflow-hidden w-full h-80 md:h-96 rounded-xl"
                              x-data="{ hover: false }"
                              @mouseenter="hover = true" 
                              @mouseleave="hover = false">
                             <img 
                                 :src="item.img" 
                                 alt="Promoción"
-                                class="w-full h-full object-cover shadow-xl border-2 border-purple-300 transition-all duration-700"
+                                class="w-full h-full object-cover shadow-xl border-2 border-purple-300 transition-all duration-700 rounded-xl"
                                 :class="hover ? 'scale-110 brightness-110' : ''"
                             >
-                            <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent transition-opacity duration-500"
+                            <div class="absolute inset-0 bg-gradient-to-t from-purple-900/70 to-transparent transition-opacity duration-500 rounded-xl"
                                  :class="hover ? 'opacity-30' : 'opacity-70'"></div>
+                            
+                            <!-- Etiqueta promocional -->
+                            <div class="absolute top-0 right-0 mt-4 mr-4 z-20" x-show="item.badge">
+                                <div 
+                                    class="font-['Righteous'] bg-[#cfbea7] text-[#2b2d42] px-3 py-1 rounded-lg transform rotate-3 shadow-lg animate__animated animate__fadeInRight animate__delay-1s"
+                                >
+                                    <span 
+                                        class="text-lg md:text-xl font-bold tracking-wider" 
+                                        x-text="item.badge"
+                                    ></span>
+                                </div>
+                            </div>
                             
                             <!-- Animación de brillo que recorre la imagen -->
                             <div 
-                                class="absolute inset-0 opacity-0"
+                                class="absolute inset-0 opacity-0 rounded-xl"
                                 :class="hover ? 'animate-shimmer' : ''"
                                 style="background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%); background-size: 200% 100%;"
                             ></div>
                         </div>
                     </template>
-                    <div 
-                        class="bg-white text-purple-900 -mt-8 relative z-10 rounded-xl px-4 py-3 w-4/5 mx-auto shadow-lg border border-purple-200 transition-all duration-500 animate__animated"
-                        :class="idx === 0 ? 'animate__bounceIn' : idx === 1 ? 'animate__flipInX' : 'animate__zoomIn'"
-                        x-data="{ hover: false }"
-                        @mouseenter="hover = true" 
-                        @mouseleave="hover = false"
-                        :class="hover ? 'transform -translate-y-2 shadow-2xl bg-purple-50' : ''"
-                    >
-                        <p class="text-base font-bold uppercase tracking-wide" x-text="item.text"></p>
-                    </div>
                 </div>
             </template>
         </div>
     </div>
 
     <!-- Botón mejorado -->
-    <div class="mt-8 flex justify-center" data-aos="zoom-in" data-aos-delay="300">
-        <a :href="promos[active].link"
-            class="inline-block rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-8 py-3 text-white font-bold shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl animate__animated animate__pulse animate__infinite animate__slower">
+    <div class="mt-10 flex justify-center" data-aos="zoom-in" data-aos-delay="300">
+        <a  href="/promo"
+            class="inline-block rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-10 py-4 text-white font-['Righteous'] text-lg shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl animate__animated animate__pulse animate__infinite animate__slower">
             ¡Comprar ahora!
         </a>
     </div>
@@ -174,6 +178,16 @@
     }
     .float {
         animation: floatAnimation 3s ease-in-out infinite;
+    }
+    
+    /* Animación para las etiquetas */
+    @keyframes pulseGlow {
+        0% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+        50% { box-shadow: 0 0 15px rgba(255,255,255,0.8); }
+        100% { box-shadow: 0 0 5px rgba(255,255,255,0.5); }
+    }
+    .pulse-glow {
+        animation: pulseGlow 2s infinite;
     }
     </style>
 </div>

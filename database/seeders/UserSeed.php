@@ -21,7 +21,7 @@ class UserSeed extends Seeder
         $user->name = "Juan";
         $user->email = "bjuan560@gmail.com";
         $user->password = bcrypt("12345678");
-        $user->role_id = 2; // Este es el ID del rol 'user'
+        $user->role_id = 1; // Este es el ID del rol 'user'
         $user->save();
 
         $user = new User();

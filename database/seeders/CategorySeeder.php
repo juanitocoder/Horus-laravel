@@ -17,6 +17,7 @@ class CategorySeeder extends Seeder
             ['name' => 'Hombres'],
             ['name' => 'Mujeres'],
             ['name' => 'Parejas'],
+            ['name' => 'Promociones'],
         ]);
     }
 }
