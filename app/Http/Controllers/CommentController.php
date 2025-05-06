@@ -7,6 +7,19 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
+
+
+    public function comentariosPorProducto($productoId)
+{
+    $comentarios = Comment::where('product_id', $productoId)
+        ->with('user')
+        ->latest()
+        ->get();
+
+    return response()->json($comentarios);
+}
+
+
     public function index(Request $request)
     {
         $comentarios = Comment::with(['user', 'product.category'])
@@ -114,7 +127,7 @@ class CommentController extends Controller
         $comentario = Comment::findOrFail($id);
         $comentario->delete();
 
-        return redirect()->route('admin.comentarios')->with('success', 'Comentario eliminado correctamente.');
+        return redirect()->route('admin.comentarios')->with('alert', 'Comentario eliminado correctamente.');
     }
 }
 

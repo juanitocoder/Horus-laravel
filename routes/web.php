@@ -149,7 +149,7 @@ Route::view('/nosotros', 'modules.dashboard.auth.nosotros')->name('nosotros');
 
 
 // Comentarios
-Route::get('/productos/{producto}/comentarios', [CommentController::class, 'index']);
+Route::get('/comentarios/producto/{id}', [CommentController::class, 'comentariosPorProducto']);
 Route::post('/productos/{id}/comentarios', [CommentController::class, 'store']);
 
 Route::put('/comentarios/{id}', [CommentController::class, 'update'])->name('comments.update');
@@ -158,6 +158,7 @@ Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])->name(
 // Comentarios admin
 Route::get('/admin/comentarios', [CommentController::class, 'vistaComentarios'])->name('admin.comentarios');
 Route::delete('/admin/comentarios/{id}', [CommentController::class, 'destroyAdmin'])->name('admin.comentarios.eliminar');
+
 
 
 

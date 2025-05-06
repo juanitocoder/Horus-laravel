@@ -38,7 +38,7 @@
             document.body.style.overflow = 'hidden';
             this.alert.show = false; // Reinicia cualquier alerta al abrir el modal
 
-            fetch(`/productos/${producto.id}/comentarios`)
+            fetch(`/comentarios/producto/${producto.id}`)
                 .then(response => response.json())
                 .then(data => {
                     this.productoActivo.comentarios = data;
