@@ -29,6 +29,7 @@ class Product extends Model
         'price',
         'image',
         'category_id',
+        'promotion_type',
     ];
 
     public function comments()

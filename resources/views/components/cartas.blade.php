@@ -149,7 +149,7 @@
     x-cloak
 >
 
-{{-- <!-- Tarjetas de Productos Rediseñadas -->
+ <!-- Tarjetas de Productos Rediseñadas -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-6 mt-6 container mx-auto">
     @foreach($productos as $producto)
         @php
@@ -167,14 +167,6 @@
             
             <!-- Imagen destacada con overlay al hacer hover -->
             <div class="relative h-72 overflow-hidden rounded-t-2xl">
-                @if($producto->category->name == 'Promociones' && $producto->promotion_type)
-                    @if($producto->promotion_type == '15_descuento')
-                        <div class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg z-10">15% OFF</div>
-                    @elseif($producto->promotion_type == '2x1')
-                        <div class="absolute top-2 left-2 bg-green-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg z-10">2x1</div>
-                    @endif
-                @endif
-    
                 <img 
                     src="{{ asset('storage/'.$producto->image) }}" 
                     alt="{{ $producto->name }}" 
@@ -210,7 +202,27 @@
     
             <!-- Información del producto -->
             <div class="p-5 bg-white">
-                <h5 class="text-xl font-bold tracking-tight text-gray-900 mb-2">{{ $producto->name }}</h5>
+                {{-- Calcula la clase de color para el título --}}
+                    @php
+                        switch($producto->promotion_type) {
+                            case '15_descuento':
+                                $titleColor = 'text-red-600';
+                                break;
+                            case '2x1':
+                                $titleColor = 'text-green-600';
+                                break;
+                            case 'Madre':
+                                $titleColor = 'text-pink-600';
+                                break;
+                            default:
+                                $titleColor = 'text-gray-900';
+                        }
+                    @endphp
+               {{-- Título con color dinámico --}}
+                    <h5 class="text-xl font-bold tracking-tight mb-2 {{ $titleColor }}">
+                        {{ $producto->name }}
+                    </h5>
+
     
                 <!-- Rating -->
                 <div class="flex items-center mb-3">
@@ -247,7 +259,7 @@
                     </div>
                 </div>
     
-                <!-- Precio y botón -->
+                     <!-- Precio y botón -->
                 <div class="flex items-center justify-between mt-2">
                     @if ($producto->promotion_type === '15_descuento')
                         <div class="flex flex-col">
@@ -263,7 +275,20 @@
                             <span class="text-2xl font-bold text-green-600">
                                 COP {{ number_format($precio, 0, ',', '.') }}
                             </span>
-                            <span class="text-sm text-green-700 font-semibold">Llévate 2 por el precio de 1</span>
+                            <span class="text-sm text-green-700 font-semibold">
+                                Llévate 2 por el precio de 1
+                            </span>
+                        </div>
+                    @elseif ($producto->promotion_type === 'Madre')
+                        <div class="flex flex-col">
+                            {{-- Precio normal en rosa --}}
+                            <span class="text-2xl font-bold text-pink-600">
+                                COP {{ number_format($precio, 0, ',', '.') }}
+                            </span>
+                            {{-- Etiqueta especial --}}
+                            <span class="text-sm text-pink-500 font-semibold">
+                                Edición especial Día de la Madre 💐
+                            </span>
                         </div>
                     @else
                         <span class="text-2xl font-bold text-gray-900">
@@ -299,46 +324,8 @@
     
         </div>
     @endforeach
-    </div> --}}
-    
-    @php
-    $promo15 = $productos->where('promotion_type', '15_descuento');
-    $promo2x1 = $productos->where('promotion_type', '2x1');
-    $promoMadre = $productos->where('promotion_type', 'Madre');
-@endphp
-
-@if ($promo15->count())
-    <div class="w-[90%] mx-auto mt-4 mb-2">
-        <h2 class="text-white text-3xl font-bold">¡15% Descuento!</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        @foreach ($promo15 as $producto)
-            @include('components.product-card', ['producto' => $producto])
-        @endforeach
-    </div>
-@endif
-
-@if ($promo2x1->count())
-    <div class="w-[95%] ml-auto mt-4 mb-2 pr-4">
-        <h2 class="text-white text-3xl font-bold">¡2X1 en Pulseras!</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        @foreach ($promo2x1 as $producto)
-            @include('components.product-card', ['producto' => $producto])
-        @endforeach
-    </div>
-@endif
-
-@if ($promoMadre->count())
-    <div class="w-[90%] mx-auto mt-4 mb-2">
-        <h2 class="text-white text-3xl font-bold">¡Especial Día de la Madre!</h2>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        @foreach ($promoMadre as $producto)
-            @include('components.product-card', ['producto' => $producto])
-        @endforeach
-    </div>
-@endif
+    </div> 
+   
 
 
     <!-- Modal Rediseñado -->
