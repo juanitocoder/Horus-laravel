@@ -114,20 +114,31 @@
                                         @enderror
                                     </div>
                                     
-                                    <!-- Categoría -->
+                                   <!-- Categoría -->
                                     <div>
-                                        <label for="category_id" class="block text-sm font-medium text-gray-300 mb-1">Categoría</label>
-                                        <select name="category_id" id="category_id" 
-                                                class="block w-full px-4 py-3 rounded-lg border border-[#3d3f56] shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-[#2a2c42] text-gray-200 @error('category_id')  @enderror">
-                                            @foreach($categorias as $categoria)
-                                                <option value="{{ $categoria->id }}" {{ old('category_id', $product->category_id) == $categoria->id ? 'selected' : '' }}>
-                                                    {{ $categoria->name }}
-                                                </option>
-                                            @endforeach
+                                    <label for="category_id" …>Categoría</label>
+                                    <select name="category_id" id="category_id" class="…">
+                                        @foreach($categorias as $categoria)
+                                        <option value="{{ $categoria->id }}"
+                                            {{ old('category_id', $product->category_id) == $categoria->id ? 'selected' : '' }}>
+                                            {{ $categoria->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')<p class="…">{{ $message }}</p>@enderror
+                                    </div>
+                                                <!-- Tipo de Promoción (solo si categoria es “Promociones” con id 4) -->
+                                    <div id="promotionTypeField" class="{{ old('category_id', $product->category_id) == 4 ? '' : 'hidden' }} mt-4">
+                                    <label for="promotion_type" class="block text-sm font-medium text-gray-300 mb-1">
+                                        Tipo de Promoción
+                                    </label>
+                                    <select name="promotion_type" id="promotion_type" class="…">
+                                        <option value="" {{ !$product->promotion_type ? 'selected' : '' }}>— Ninguna —</option>
+                                        <option value="15_descuento" {{ $product->promotion_type==='15_descuento' ? 'selected' : '' }}>15% Descuento</option>
+                                        <option value="2x1" {{ $product->promotion_type==='2x1' ? 'selected' : '' }}>2×1</option>
+                                        <option value="Madre" {{ $product->promotion_type==='Madre' ? 'selected' : '' }}>Día de la Madre</option>
                                         </select>
-                                        @error('category_id')
-                                            <p class="mt-1 text-sm text-red-400">{{ $message }}</p>
-                                        @enderror
+                                    @error('promotion_type')<p class="mt-1 text-sm text-red-400">{{ $message }}</p>@enderror
                                     </div>
                                 </div>
                                 
@@ -197,6 +208,11 @@
             }
             reader.readAsDataURL(file);
         }
+    });
+        document.getElementById('category_id').addEventListener('change', function () {
+    const promoField = document.getElementById('promotionTypeField');
+    // Asume que la categoría “Promociones” tiene id = 4
+    promoField.classList.toggle('hidden', this.value != 4);
     });
 </script>
 @endsection
