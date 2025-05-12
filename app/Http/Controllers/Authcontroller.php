@@ -70,6 +70,8 @@ class Authcontroller extends Controller
         
         return redirect()->route('login')->with('alert', 'Usuario registrado correctamente');
     }
+
+    //validar
     public function logear(request $request){
         $credentials = [
             'email' => $request->email,

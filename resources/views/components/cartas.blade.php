@@ -67,7 +67,7 @@
             }
 
             fetch(`/productos/${this.productoActivo.id}/comentarios`, {
-                method: 'POST',
+                method: 'POST',                                                // petición POST a Laravel con el contenido del comentario.
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -130,7 +130,7 @@
             if (!confirm('¿Estás seguro de que deseas eliminar este comentario?')) return;
 
             fetch(`/comentarios/${id}`, {
-                method: 'DELETE',
+                method: 'DELETE',                                      //Peticion de eliminacion a laravel
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
@@ -154,7 +154,7 @@
             @foreach($productos as $producto)
                 @php
                     $userRating = auth()->check()
-                        ? $producto->ratings()->where('user_id', auth()->id())->first()
+                        ? $producto->ratings()->where('user_id', auth()->id())->first()                //Calificacion del usuario autentificado
                         : null;
                 @endphp
 
@@ -163,7 +163,8 @@
                     <!-- Imagen destacada con overlay al hacer hover -->
                     <div class="relative h-72 overflow-hidden rounded-t-2xl">
 
-                        @if($producto->category->name == 'Promociones' && $producto->promotion_type)
+                        @if($producto->category->name == 'Promociones' && $producto->promotion_type)       //verificacionn si el producto es de la categoria promociones
+                            <!-- Etiqueta de promoción -->
                             @if($producto->promotion_type == '15_descuento')
                                 <div class="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-lg z-10">15% OFF</div>
                             @elseif($producto->promotion_type == '2x1')
