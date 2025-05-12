@@ -87,8 +87,9 @@
                                 <select name="promotion_type" id="promotion_type"
                                     class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-blue-600 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#cfbea7] focus:border-transparent transition duration-200">
                                     <option value="" disabled selected>Selecciona tipo de promoción</option>
-                                    <option value="15_descuento">Descuento 15%</option>
+                                    <option value="15_descuento">15% Descuento</option>
                                     <option value="2x1">2x1</option>
+                                    <option value="Madre">Dia de la madre</option>
                                 </select>
                             </div>
                         @error('category_id')
