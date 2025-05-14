@@ -265,9 +265,7 @@
                                 
                             </div>
                         @endif
-                    @endauth
-
-                    @if( Auth::user()->role->name === 'superadmin')
+                          @if( Auth::user()->role->name === 'superadmin')
                         <div class="mb-6 space-y-2">
                             <h3 class="text-xs uppercase text-gray-500 font-semibold">Panel de Superadmin</h3>
                             <a href="/admin/usuarios" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition">
@@ -278,6 +276,9 @@
                             </a>
                         </div>
                     @endif
+                    @endauth
+
+                  
                     <!-- Navigation links -->
                     <div class="space-y-1">
                         <h3 class="text-xs uppercase text-gray-500 font-semibold mt-4 mb-2">Navegación</h3>
