@@ -67,7 +67,7 @@
             }
 
             fetch(`/productos/${this.productoActivo.id}/comentarios`, {
-                method: 'POST',
+                method: 'POST',                                                // petición POST a Laravel con el contenido del comentario.
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -130,7 +130,7 @@
             if (!confirm('¿Estás seguro de que deseas eliminar este comentario?')) return;
 
             fetch(`/comentarios/${id}`, {
-                method: 'DELETE',
+                method: 'DELETE',                                      //Peticion de eliminacion a laravel
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
