@@ -7,26 +7,26 @@
                 link: '/catalogo#promocion-2x1',
                 items: [
                     { img: '{{ asset('images/Promos/Promo4.jpg') }}', badge: '2x1' },
-                    { img: '{{ asset('images/Promos/Promo2.jpg') }}', badge: '3x4' },
-                    { img: '{{ asset('images/Promos/Promo3.jpg') }}', badge: 'LIMITADO' }
+                    { img: '{{ asset('images/Promos/Promo2.jpg') }}', badge: '2x1' },
+                    { img: '{{ asset('images/Promos/Promo3.jpg') }}', badge: '2x1' }
                 ]
             },
             {
                 title: 'Día de la Madre',
-                link: '/ver-video',
+                link: '/mamá',
                 items: [
-                    { img: '{{ asset('images/Promos/DiaMadre1.jpg') }}', badge: 'MAMÁ' },
-                    { img: '{{ asset('images/Promos/DiaMadre2.jpg') }}', badge: '-20%' },
-                    { img: '{{ asset('images/Promos/DiaMadre3.jpg') }}', badge: 'REGALO' }
+                    { img: '{{ asset('images/Promos/Madre1.jpg') }}', badge: 'MAMÁ' },
+                    { img: '{{ asset('images/Promos/Madre2.jpg') }}', badge: '-20%' },
+                    { img: '{{ asset('images/Promos/Madre3.jpg') }}', badge: 'REGALO' }
                 ]
             },
             {
-                title: 'Nueva Colección',
+                title: '15% Descuento',
                 link: '/coleccion',
                 items: [
-                    { img: '{{ asset('images/Promos/Nuevo1.jpg') }}', badge: 'NUEVO' },
-                    { img: '{{ asset('images/Promos/Nuevo2.jpg') }}', badge: 'EXCLUSIVO' },
-                    { img: '{{ asset('images/Promos/Nuevo3.jpg') }}', badge: 'LIMITED' }
+                    { img: '{{ asset('images/Promos/Descuento1.jpg') }}', badge: 'NUEVO' },
+                    { img: '{{ asset('images/Promos/Descuento2.jpg') }}', badge: 'EXCLUSIVO' },
+                    { img: '{{ asset('images/Promos/Descuento3.jpg') }}', badge: 'LIMITED' }
                 ]
             }
         ],
