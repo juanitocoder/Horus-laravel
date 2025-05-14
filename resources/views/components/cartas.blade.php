@@ -445,7 +445,7 @@
                     </button>
                     @endif
                 @endguest
-                <template x-if="productoActivo?.role === 'user'">
+                <template x-if="productoActivo?.role === 'user'|| productoActivo?.role === 'admin' || productoActivo?.role === 'superadmin'">
                     <form :action="productoActivo?.addToCartUrl" method="POST" class="flex justify-center">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <button
@@ -522,7 +522,7 @@
             
             <!-- Botones para administradores -->
             <div class="px-6 pb-6 mt-2">
-                <template x-if="productoActivo?.role === 'admin'">
+                <template x-if="productoActivo?.role === 'admin'|| productoActivo?.role === 'superadmin'">
                     <div class="flex gap-2 w-full">
                         <!-- Botón Editar -->
                         <a :href="'/admin/product/' + productoActivo?.id + '/edit'" class="w-1/2 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors duration-300 flex items-center justify-center gap-2">

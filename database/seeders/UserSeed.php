@@ -14,9 +14,17 @@ class UserSeed extends Seeder
         Role::insert([
             ['id' => 1, 'name' => 'admin'],
             ['id' => 2, 'name' => 'user'],
+            ['id' => 3, 'name' => 'superadmin'],
         ]);
 
         // Luego los usuarios
+        $user = new User();
+        $user->name = "Jhoana";
+        $user->email = "yumi@gmail.com";
+        $user->password = bcrypt("yumi1234");
+        $user->role_id = 3; // Este es el ID del rol 'user'
+        $user->save();
+        
         $user = new User();
         $user->name = "Juan";
         $user->email = "bjuan560@gmail.com";

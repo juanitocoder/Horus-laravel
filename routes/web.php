@@ -42,6 +42,12 @@ Route::post('/guardar', [ProductController::class, 'store'])->name('product.stor
 Route::post('/calificar-producto/{id}', [ProductController::class, 'calificar']);
 
 
+
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/usuarios', [UserController::class, 'index'])->name('usuarios.index');
+    Route::post('/admin/usuarios/{user}/cambiar-rol', [UserController::class, 'cambiarRol'])->name('usuarios.cambiar-rol');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
     Route::get('/perfil', [UserController::class, 'perfil'])->name('perfil');
@@ -144,7 +150,7 @@ Route::post('/reset-password', function (Request $request) {
 Route::get('/perfil', [PerfilController::class, 'editar'])->name('perfil.editar');
 Route::put('/perfil', [PerfilController::class, 'actualizar'])->name('perfil.actualizar');
 
-// Nosotroa
+// Nosotros
 Route::view('/nosotros', 'modules.dashboard.auth.nosotros')->name('nosotros');
 
 
