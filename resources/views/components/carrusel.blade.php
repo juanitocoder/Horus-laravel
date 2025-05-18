@@ -90,13 +90,15 @@
 
     <!-- Título animado con tipografía más llamativa -->
     <h2 
-        class="font-['Righteous'] text-4xl md:text-5xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 tracking-wider animate__animated drop-shadow-lg" 
-        x-text="promos[active].title"
-        :class="'animate__' + ['bounceIn', 'fadeInDown', 'zoomIn'][active % 3]"
-        x-transition:enter="transition ease-out duration-500"
-        x-transition:enter-start="opacity-0 transform -translate-y-4"
-        x-transition:enter-end="opacity-100 transform translate-y-0"
-    ></h2>
+    class="font-sans text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 uppercase tracking-widest drop-shadow-2xl animate__animated" 
+    x-text="promos[active].title"
+    :class="'animate__' + ['rubberBand', 'tada', 'pulse'][active % 3]"
+    x-transition:enter="transition transform ease-out duration-500"
+    x-transition:enter-start="opacity-0 scale-90"
+    x-transition:enter-end="opacity-100 scale-100"
+></h2>
+
+
 
     <!-- Carrusel con animación mejorada -->
     <div 
