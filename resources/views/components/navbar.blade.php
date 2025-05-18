@@ -58,63 +58,119 @@
             </a>
 
             @auth
-                <!-- Admin Controls -->
-               @if(Auth::user()->role->name === 'admin' || Auth::user()->role->name === 'superadmin')
-    <div x-data="{ open: false }" class="relative">
-        <!-- Botón de menú -->
-        <button @click="open = !open" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-500 transition flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-            </svg>
-            Admin
-        </button>
-        
-                            <!-- Menú desplegable -->
-                            <div x-show="open" 
-                                @click.away="open = false"
-                                x-transition:enter="transition ease-out duration-200"
-                                x-transition:enter-start="opacity-0 transform scale-95"
-                                x-transition:enter-end="opacity-100 transform scale-100"
-                                x-transition:leave="transition ease-in duration-150"
-                                x-transition:leave-start="opacity-100 transform scale-100"
-                                x-transition:leave-end="opacity-0 transform scale-95"
-                                x-cloak=""
-                                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50">
-                                
-                                <div class="py-1 rounded-md bg-white dark:bg-gray-800 shadow-xs">
-                                    <a href="/admin/graficas" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                                        </svg>
-                                        Gráficas
-                                    </a>
-                                    
-                                    <a href="/crear" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                        </svg>
-                                        Nuevo Producto
-                                    </a>
-                                    
-                                    <a href="{{ route('admin.comentarios') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                                        </svg>
-                                        Gestionar Comentarios
-                                    </a>
-                                    
-                                    @if(Auth::user()->role->name === 'superadmin')
-                                        <a href="/admin/usuarios" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                                            </svg>
-                                            Gestionar Usuarios
-                                        </a>
-                                    @endif
+                        <!-- Admin panel con sidebar -->
+                <div x-data="{ adminSidebarOpen: false }" class="relative">
+                    
+                    @if(Auth::user()->role->name === 'admin' || Auth::user()->role->name === 'superadmin')
+                    <button @click="adminSidebarOpen = true" class="bg-orange-600 text-white px-3 py-2 rounded-lg hover:bg-blue-500 transition flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                        </svg>
+                        Admin
+                    </button>
+                    @endif
+                    <!-- Overlay para el admin sidebar -->
+                    <div x-show="adminSidebarOpen" 
+                        @click="adminSidebarOpen = false" 
+                        class="fixed inset-0 z-50 bg-black bg-opacity-50"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
+                        x-cloak>
+                    </div>
+                    
+                    <!-- Admin Sidebar -->
+                    <div x-show="adminSidebarOpen"
+                        x-transition:enter="transform transition ease-out duration-300"
+                        x-transition:enter-start="translate-x-full"
+                        x-transition:enter-end="translate-x-0"
+                        x-transition:leave="transform transition ease-in duration-200"
+                        x-transition:leave-start="translate-x-0"
+                        x-transition:leave-end="translate-x-full"
+                        @click.away="adminSidebarOpen = false"
+                        class="fixed right-0 top-0 z-50 w-72 h-full bg-gray-900 text-white shadow-xl overflow-y-auto"
+                        x-cloak>
+                        
+                        <!-- Encabezado del sidebar -->
+                        <div class="flex items-center justify-between p-4 border-b border-gray-800">
+                            <div class="flex items-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                <span class="text-xl font-bold">Panel Admin</span>
+                            </div>
+                            
+                            <!-- Botón para cerrar -->
+                            <button @click="adminSidebarOpen = false" class="text-gray-400 hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <!-- Información del usuario -->
+                        <div class="p-4 bg-gray-800 rounded-lg mx-3 my-3">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="p-2 bg-gray-700 rounded-full">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium">{{ Auth::user()->name }}</p>
+                                    <p class="text-xs text-gray-400">{{ Auth::user()->email }}</p>
                                 </div>
                             </div>
+                            
+                            @if(Auth::user()->role->name === 'admin')
+                                <div class="bg-red-500 text-white py-1 px-2 rounded font-bold text-sm">ADMIN</div>
+                            @elseif (Auth::user()->role->name === 'superadmin')
+                                <div class="bg-green-800 text-white py-1 px-2 rounded font-bold text-sm">Superadmin</div>
+                            @endif
                         </div>
-                    @endif
+                        
+                        <!-- Menú de navegación -->
+                        <div class="p-4">
+                            <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3">Panel de administración</h3>
+                            
+                        
+                            
+                            <a href="/admin/graficas" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                </svg>
+                                <span>Gráficas</span>
+                            </a>
+                            
+                            <a href="/crear" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                <span>Nuevo Producto</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.comentarios') }}" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                </svg>
+                                <span>Gestionar Comentarios</span>
+                            </a>
+                            
+                            @if(Auth::user()->role->name === 'superadmin')
+                                <h3 class="text-xs uppercase text-gray-500 font-semibold mt-6 mb-3">Panel de Superadmin</h3>
+                                <a href="/admin/usuarios" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                    </svg>
+                                    <span>Gestionar Usuarios</span>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
                 <!-- User Profile -->
                 <div class="relative" x-data="{ open: false }">
                     <div @click="open = !open" class="cursor-pointer flex items-center space-x-2 px-3 py-2 rounded-lg" :class="{'bg-gray-800': open}">
