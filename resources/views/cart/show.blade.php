@@ -90,10 +90,13 @@
                         <span>Seguir comprando</span>
                     </a>
                     
-                    <a href="#" class="group bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl transition-all flex items-center gap-2 w-full sm:w-auto justify-center shadow-lg">
+                    <form action="{{ route('checkout.finalizar') }}" method="POST" class="w-full sm:w-auto">
+                        @csrf
+                        <button type="submit" class="group bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl transition-all flex items-center gap-2 w-full justify-center shadow-lg">
                         <span>Finalizar Compra</span>
                         <x-heroicon-o-shopping-cart class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </a>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

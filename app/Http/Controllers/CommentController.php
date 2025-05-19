@@ -10,7 +10,7 @@ class CommentController extends Controller
 
 
     public function comentariosPorProducto($productoId)
-{
+    {
     $comentarios = Comment::where('product_id', $productoId)
         ->with('user')
         ->latest()

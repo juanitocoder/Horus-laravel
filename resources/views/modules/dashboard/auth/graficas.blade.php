@@ -121,10 +121,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Paleta de colores predefinida (más armoniosa)
     const colorPalette = [
-        { background: 'rgba(54, 162, 235, 0.7)', border: 'rgba(54, 162, 235, 1)' },
-        { background: 'rgba(255, 99, 132, 0.7)', border: 'rgba(255, 99, 132, 1)' },
+        { background: 'rgba(55, 165, 230, 0.7)', border: 'rgba(54, 162, 235, 1)' },
+        { background: 'rgba(55, 99, 100, 0.7)', border: 'rgba(255, 99, 132, 1)' },
         { background: 'rgba(75, 192, 192, 0.7)', border: 'rgba(75, 192, 192, 1)' },
-        { background: 'rgba(255, 159, 64, 0.7)', border: 'rgba(255, 159, 64, 1)' },
+        { background: 'rgba(255, 161, 67, 0.7)', border: 'rgba(255, 159, 64, 1)' },
         { background: 'rgba(153, 102, 255, 0.7)', border: 'rgba(153, 102, 255, 1)' },
         { background: 'rgba(255, 205, 86, 0.7)', border: 'rgba(255, 205, 86, 1)' },
         { background: 'rgba(201, 203, 207, 0.7)', border: 'rgba(201, 203, 207, 1)' }

@@ -16,7 +16,7 @@ class Authcontroller extends Controller
     public function home(){
         return view ('modules/dashboard/auth/home');
     }
-   
+
     public function register()
     {
         return view('modules/dashboard/auth/registro');

@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GraficaController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CheckoutController;
 
 
 
@@ -158,6 +159,13 @@ Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])->name(
 // Comentarios admin
 Route::get('/admin/comentarios', [CommentController::class, 'vistaComentarios'])->name('admin.comentarios');
 Route::delete('/admin/comentarios/{id}', [CommentController::class, 'destroyAdmin'])->name('admin.comentarios.eliminar');
+
+//facturaccion
+Route::post('/checkout', [CheckoutController::class, 'finalizarCompra'])->name('checkout.finalizar');
+Route::get('/factura/{id}', [CheckoutController::class, 'verFactura'])->name('factura.ver');
+
+//descargar pdf
+Route::get('/pdf/{id}/pdf', [CheckoutController::class, 'descargarFactura'])->name('factura.pdf');
 
 
 
