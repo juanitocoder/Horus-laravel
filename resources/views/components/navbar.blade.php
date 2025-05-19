@@ -59,31 +59,71 @@
 
             @auth
                 <!-- Admin Controls -->
-                @if(Auth::user()->role->name === 'admin')
-                    <div class="flex items-center space-x-2">
-                        <a href="/admin/graficas" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                            </svg>
-                            Gráficas
-                        </a>
-                        <a href="/crear" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                            Nuevo Producto
-                        </a>
-                        <a href="{{ route('admin.comentarios') }}" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition flex items-center">Gestionar Comentarios</a>
-                    </div>
-                @endif
-
+               @if(Auth::user()->role->name === 'admin' || Auth::user()->role->name === 'superadmin')
+    <div x-data="{ open: false }" class="relative">
+        <!-- Botón de menú -->
+        <button @click="open = !open" class="bg-blue-600 text-white px-3 py-2 rounded-lg hover:bg-blue-500 transition flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+            </svg>
+            Admin
+        </button>
+        
+                            <!-- Menú desplegable -->
+                            <div x-show="open" 
+                                @click.away="open = false"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 transform scale-95"
+                                x-transition:enter-end="opacity-100 transform scale-100"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 transform scale-100"
+                                x-transition:leave-end="opacity-0 transform scale-95"
+                                x-cloak=""
+                                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50">
+                                
+                                <div class="py-1 rounded-md bg-white dark:bg-gray-800 shadow-xs">
+                                    <a href="/admin/graficas" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                        </svg>
+                                        Gráficas
+                                    </a>
+                                    
+                                    <a href="/crear" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Nuevo Producto
+                                    </a>
+                                    
+                                    <a href="{{ route('admin.comentarios') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                                        </svg>
+                                        Gestionar Comentarios
+                                    </a>
+                                    
+                                    @if(Auth::user()->role->name === 'superadmin')
+                                        <a href="/admin/usuarios" class="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                            </svg>
+                                            Gestionar Usuarios
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                 <!-- User Profile -->
                 <div class="relative" x-data="{ open: false }">
                     <div @click="open = !open" class="cursor-pointer flex items-center space-x-2 px-3 py-2 rounded-lg" :class="{'bg-gray-800': open}">
                         @if(Auth::user()->role->name === 'admin')
-                            <div class="bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">ADMIN</div>
+                            <div class="bg-red-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">ADMIN</div>
+                        @elseif (Auth::user()->role->name === 'superadmin')
+                            <div class="bg-green-800 text-white py-1 px-2 rounded font-bold text-sm mb-2">Superadmin</div>
                         @else
-                            <div class="bg-blue-500 text-white px-2 py-1 rounded text-xs font-bold">USUARIO</div>
+                            <div class="bg-blue-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">USUARIO</div>
                         @endif
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -193,13 +233,15 @@
                             </div>
                             
                             @if(Auth::user()->role->name === 'admin')
-                                <div class="bg-red-500 text-center py-1 px-2 rounded font-bold text-sm mb-2">ADMIN</div>
+                                <div class="bg-red-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">ADMIN</div>
+                            @elseif (Auth::user()->role->name === 'superadmin')
+                                <div class="bg-green-800 text-white py-1 px-2 rounded font-bold text-sm mb-2">Superadmin</div>
                             @else
-                                <div class="bg-blue-500 text-center py-1 px-2 rounded font-bold text-sm mb-2">USUARIO</div>
+                                <div class="bg-blue-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">USUARIO</div>
                             @endif
                         </div>
                         
-                        @if(Auth::user()->role->name === 'admin')
+                        @if(Auth::user()->role->name === 'admin'|| Auth::user()->role->name === 'superadmin')
                             <div class="mb-6 space-y-2">
                                 <h3 class="text-xs uppercase text-gray-500 font-semibold">Panel de administración</h3>
                                 <a href="/admin/graficas" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition">
@@ -223,8 +265,20 @@
                                 
                             </div>
                         @endif
+                          @if( Auth::user()->role->name === 'superadmin')
+                        <div class="mb-6 space-y-2">
+                            <h3 class="text-xs uppercase text-gray-500 font-semibold">Panel de Superadmin</h3>
+                            <a href="/admin/usuarios" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                                <span>Gestionar usuarios</span>
+                            </a>
+                        </div>
+                    @endif
                     @endauth
-                    
+
+                  
                     <!-- Navigation links -->
                     <div class="space-y-1">
                         <h3 class="text-xs uppercase text-gray-500 font-semibold mt-4 mb-2">Navegación</h3>

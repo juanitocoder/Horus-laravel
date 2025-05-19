@@ -167,7 +167,7 @@
                 <!-- Decorative image section -->
                 <div class="relative w-full max-w-2xl mx-auto overflow-hidden" data-aos="fade-left" data-aos-duration="1000">
                     <img src="{{ asset('images/mano.png') }}" alt="Pulsera mano" class="hidden sm:block w-full h-auto main-image">
-                    <div class="absolute inset-0 bg-gradient-to-r from-[#212235] via-[#212235]/70 to-transparent pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#212235] via-[#212235]/0 to-transparent pointer-events-none"></div>
                     
                 </div>
             </div>
