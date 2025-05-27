@@ -90,10 +90,27 @@
                         <span>Seguir comprando</span>
                     </a>
                     
-                    <a href="#" class="group bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl transition-all flex items-center gap-2 w-full sm:w-auto justify-center shadow-lg">
-                        <span>Finalizar Compra</span>
-                        <x-heroicon-o-shopping-cart class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </a>
+                    <form>
+                        <script 
+                            src="https://checkout.epayco.co/checkout.js"
+                            class="epayco-button"
+                            data-epayco-key="d397c4fa7a226164b2bc2a7d36875bd3"
+                            data-epayco-amount="{{ $total }}"
+                            data-epayco-name="Compra en Pulseras Horus"
+                            data-epayco-description="Pago de carrito"
+                            data-epayco-currency="cop"
+                            data-epayco-country="CO"
+                            data-epayco-test="true" {{-- cámbialo a "false" en producción --}}
+                            data-epayco-external="false"
+                            data-epayco-response="{{ route('epayco.response') }}"
+                            data-epayco-confirmation="{{ route('epayco.confirmation') }}"
+                            data-epayco-email-billing="{{ auth()->user()->email ?? 'cliente@correo.com' }}"
+                            data-epayco-tax="0"
+                            data-epayco-tax-base="{{ $total }}"
+                            data-epayco-invoice="{{ uniqid('order_') }}"
+                        >
+                        </script>
+                    </form>
                 </div>
             </div>
         </div>

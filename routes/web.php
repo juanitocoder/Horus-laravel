@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GraficaController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\PagoController;
 
 
 
@@ -165,6 +166,8 @@ Route::delete('/comentarios/{id}', [CommentController::class, 'destroy'])->name(
 Route::get('/admin/comentarios', [CommentController::class, 'vistaComentarios'])->name('admin.comentarios');
 Route::delete('/admin/comentarios/{id}', [CommentController::class, 'destroyAdmin'])->name('admin.comentarios.eliminar');
 
-
-
-
+Route::get('/pago', [PagoController::class, 'index'])->name('pago.index');
+Route::get('/epayco/response', [PagoController::class, 'response'])->name('epayco.response');
+Route::post('/epayco/confirmation', [PagoController::class, 'confirmation'])->name('epayco.confirmation');
+Route::post('/clear-cart-after-payment', [PagoController::class, 'clearCartAfterPayment'])->name('clear.cart');
+Route::post('/check-payment-status', [PagoController::class, 'checkPaymentStatus'])->name('check.payment');

@@ -51,4 +51,16 @@ class CartController extends Controller
         }
         return redirect()->back();
     }
+
+        public function clear()
+        {
+            $cart = Auth::user()->cart()->first();
+            
+            if ($cart) {
+                $cart->items()->delete();
+                return redirect()->back()->with('alert', 'Carrito limpiado');
+            }
+            
+            return redirect()->back()->with('alert', 'El carrito ya estaba vacío');
+        }
 }
