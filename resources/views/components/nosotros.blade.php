@@ -15,14 +15,14 @@
         });
     </script>
     
-    <div class="max-w-6xl mx-auto px-4">
+   <div class="max-w-6xl mx-auto px-4">
         <!-- Título principal con animación -->
-        <h2 class="relative text-4xl font-extrabold text-center mb-16 animate__animated animate__fadeInDown">
+        <h2 class="relative text-4xl font-extrabold text-center mb-16 animate_animated animate_fadeInDown">
             <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber-500 to-yellow-600">NUESTRA HISTORIA</span>
             <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-32 h-1 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-full"></div>
             <div class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-amber-300 rounded-full opacity-50 animate-pulse"></div>
         </h2>
-        
+
         <!-- Sección Principal con mejor diseño de grid -->
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
             <!-- Columna Izquierda (completamente rediseñada) -->
