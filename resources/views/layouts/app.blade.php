@@ -128,5 +128,19 @@ AOS.init();
     </div>
 </div>
 <script src="{{ asset('js/alerts/toast.js') }}" type="module"></script>
+ @include('components.loader')
+
+    @yield('content')
+
+    <!-- Scripts -->
+    <script>
+        function showLoader() {
+            document.getElementById('loader').classList.remove('hidden');
+        }
+
+        function hideLoader() {
+            document.getElementById('loader').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

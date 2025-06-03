@@ -200,7 +200,7 @@
 
         {{-- Enlace para iniciar sesión (compartido entre ambos formularios) --}}
         <div class="w-full text-center mt-4">
-            <a href="{{ route('login') }}" class="text-sm text-blue-400 hover:text-blue-300 transition">
+            <a href="{{ route('login') }}" class="text-sm text-blue-400 hover:text-blue-300 transition" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
                 ¿Ya tienes una cuenta? Inicia sesión
             </a>
         </div>

@@ -56,7 +56,7 @@
         {{-- Enlace para recuperar contraseña --}}
         <div class="w-full flex items-center justify-between mb-4">
             <div></div>
-            <a href="{{ route('password.request') }}" class="text-sm text-blue-400 hover:text-blue-300 transition">¿Olvidaste tu contraseña?</a>
+            <a href="{{ route('password.request') }}" class="text-sm text-blue-400 hover:text-blue-300 transition" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">¿Olvidaste tu contraseña?</a>
         </div>
 
         {{-- Botón de inicio de sesión --}}
@@ -73,7 +73,7 @@
 
         {{-- Enlace para registrarse --}}
         <div class="w-full text-center mt-4">
-            <a href="/registro" class="text-sm text-blue-400 hover:text-blue-300 transition">¿No tienes cuenta? Regístrate</a>
+            <a href="/registro" class="text-sm text-blue-400 hover:text-blue-300 transition "onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">¿No tienes cuenta? Regístrate</a>
         </div>
     </form>
 

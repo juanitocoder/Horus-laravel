@@ -171,3 +171,6 @@ Route::get('/epayco/response', [PagoController::class, 'response'])->name('epayc
 Route::post('/epayco/confirmation', [PagoController::class, 'confirmation'])->name('epayco.confirmation');
 Route::post('/clear-cart-after-payment', [PagoController::class, 'clearCartAfterPayment'])->name('clear.cart');
 Route::post('/check-payment-status', [PagoController::class, 'checkPaymentStatus'])->name('check.payment');
+
+Route::get('/', [ProductController::class, 'index'])->name('home');
+

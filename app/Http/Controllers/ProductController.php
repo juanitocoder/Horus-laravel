@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+   public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $productos = Product::when($search, function ($query, $search) {
+        return $query->where('name', 'like', '%' . $search . '%');
+    })->get();
+
+    return view('modules.dashboard.auth.home', compact('productos', 'search'));
+}
     public function hombres()
     {
         $productos = Product::with('category')

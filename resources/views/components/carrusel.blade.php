@@ -155,8 +155,8 @@
 
     <!-- Botón mejorado -->
     <div class="mt-10 flex justify-center" data-aos="zoom-in" data-aos-delay="300">
-        <a  href="/promo"
-            class="inline-block rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-10 py-4 text-white font-['Righteous'] text-lg shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl animate__animated animate__pulse animate__infinite animate__slower">
+        <a  href="/promo"class="inline-block rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 px-10 py-4 text-white font-['Righteous'] text-lg shadow-lg hover:from-violet-700 hover:to-indigo-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl animate__animated animate__pulse animate__infinite animate__slower"
+        onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
             ¡Comprar ahora!
         </a>
     </div>
