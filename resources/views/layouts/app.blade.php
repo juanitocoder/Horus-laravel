@@ -130,7 +130,6 @@ AOS.init();
 <script src="{{ asset('js/alerts/toast.js') }}" type="module"></script>
  @include('components.loader')
 
-    @yield('content')
 
     <!-- Scripts -->
     <script>
