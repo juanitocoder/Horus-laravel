@@ -34,6 +34,7 @@
         <!-- Contenido principal -->
         <main class="flex-grow">
             @yield('content')
+            @yield('pago')
             @yield('hombres')
             @yield('mujeres')
             @yield('parejas')
@@ -47,7 +48,7 @@
             <x-footer />
         </footer>
     </div>
-
+        
     <script>
         
         function submitRating(productId, ratingValue) {

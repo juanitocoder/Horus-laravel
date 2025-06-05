@@ -16,6 +16,7 @@ use App\Http\Controllers\GraficaController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PagoController;
+use App\Http\Controllers\SearchController;
 
 
 
@@ -173,4 +174,9 @@ Route::post('/clear-cart-after-payment', [PagoController::class, 'clearCartAfter
 Route::post('/check-payment-status', [PagoController::class, 'checkPaymentStatus'])->name('check.payment');
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
+
+// Rutas de búsqueda
+Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
+Route::get('/products/search/ajax', [ProductController::class, 'searchAjax'])->name('products.search.ajax');
+Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 

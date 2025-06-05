@@ -18,6 +18,42 @@ class ProductController extends Controller
 
     return view('modules.dashboard.auth.home', compact('productos', 'search'));
 }
+public function show($id)
+{
+    $product = Product::findOrFail($id);
+    $productos = collect([$product]); // colección con un solo producto
+    return view('products.show', compact('product', 'productos'));
+}
+public function search(Request $request, $category)
+{
+    $search = $request->input('search');
+
+    $categoryData = Category::where('name', $category)->firstOrFail();
+
+    $products = Product::where('category_id', $categoryData->id)
+        ->where(function($query) use ($search) {
+            $query->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+        })
+        ->paginate(12);
+
+    return view('products.search', compact('products', 'search', 'category'));
+}
+
+
+public function searchAjax(Request $request)
+{
+    $query = $request->input('search');
+
+    $products = Product::where('name', 'like', "%$query%")
+        ->orWhere('description', 'like', "%$query%")
+        ->take(10)
+        ->get();
+
+    return response()->json([
+        'products' => $products
+    ]);
+}
     public function hombres()
     {
         $productos = Product::with('category')

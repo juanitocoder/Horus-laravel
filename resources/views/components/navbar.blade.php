@@ -18,8 +18,6 @@
                 </div>
             @endauth
         </button>
-
-        <!-- Logo -->
         <div class="flex-1 flex justify-center lg:justify-start">
             <a href="/" class="flex items-center">
                 <img src="{{ asset('images/Logo.png') }}" alt="Horus Logo" class="h-12 w-auto">
@@ -28,7 +26,9 @@
         
         <!-- Desktop menu -->
         <div class="hidden lg:flex items-center space-x-6">
-            
+                     <div class="navbar-nav mx-auto pr-4">
+                        <x-search-bar />
+                    </div>
             <!-- INICIO -->
                 <a href="/" 
                 onclick="event.preventDefault(); showLoader(); window.location.href=this.href;" 
@@ -51,7 +51,7 @@
                     </svg>
                     <span>Nosotros</span>
                 </a>
-
+            
 
             <a href="/carrito" class="relative flex items-center hover:text-yellow-400 transition"
             onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
