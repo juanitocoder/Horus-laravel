@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Promotion;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -67,10 +68,12 @@ public function searchAjax(Request $request)
     
     public function promo()
 {
-    $promociones = Product::with('category')
-        ->whereNotNull('promotion_type')     // sólo los que tengan promo
-        ->get()
-        ->groupBy('promotion_type');         // agrupa por tipo
+    $promotions = Promotion::with('products')->get();
+
+    // Agrupar productos por tipo de promoción
+    $promociones = $promotions->mapWithKeys(function ($promotion) {
+        return [$promotion->name => $promotion->products];
+    });         // agrupa por tipo
 
     return view('modules.dashboard.auth.promo', compact('promociones'));
 }
@@ -110,39 +113,39 @@ public function searchAjax(Request $request)
     public function create()
     {
         $categorias = Category::all();
-        return view('modules.dashboard.auth.crear', compact('categorias'));
+    $promotions = Promotion::where('is_active', 1)->get(); // solo activas si quieres
+
+    return view('modules.dashboard.auth.crear', compact('categorias', 'promotions'));
+
     }
 
     public function store(Request $request )
     
     {
         $request->validate([
-            'name' => 'required',
-            'description' => 'nullable',
-            'price' => 'required|numeric',
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
-            'category_id' => 'required|exists:categories,id',
-            'promotion_type' => 'nullable|string',
-            
-        ]);
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'promotion_id' => 'nullable|exists:promotions,id',
+        'image' => 'nullable|image|max:2048',
+    ]);
 
-        $rutaImagen = null;
-        if ($request->hasFile('image')) {
-            $rutaImagen = $request->file('image')->store('productos', 'public');
-        }
-        
-        $product = Product::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'price' => $request->price,
-            'image' => $rutaImagen,
-            'category_id' => $request->category_id,
-        ]);
+    $product = new Product();
+    $product->name = $request->name;
+    $product->description = $request->description;
+    $product->price = $request->price;
+    $product->category_id = $request->category_id;
+    $product->promotion_id = $request->promotion_id;
 
-        $product->promotion_type = $request->promotion_type;
-        $product->save();
+    if($request->hasFile('image')){
+        $path = $request->file('image')->store('products', 'public');
+        $product->image = $path;
+    }
 
-        return redirect()->route('product.create')->with('success', 'Producto agregado correctamente.');
+    $product->save();
+
+        return redirect()->route('product.create')->with('alert', 'Producto agregado correctamente.');
     }
 
     public function calificar(Request $request, $id)
@@ -158,10 +161,12 @@ public function searchAjax(Request $request)
      * Mostrar el formulario para editar un producto
      */
     public function edit(Product $product)
-    {
-        $categorias = Category::all();
-        return view('modules.dashboard.auth.editar-producto', compact('product', 'categorias'));
-    }
+{
+    $categorias = Category::all();
+    $promociones = Promotion::all();
+
+    return view('modules.dashboard.auth.editar-producto', compact('product', 'categorias', 'promociones'));
+}
 
     /**
      * Actualizar un producto en la base de datos
@@ -169,33 +174,38 @@ public function searchAjax(Request $request)
     public function update(Request $request, Product $product)
 {
     $request->validate([
-        'name'           => 'required|string|max:255',
-        'description'    => 'nullable|string',
-        'price'          => 'required|numeric|min:0',
-        'image'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        'category_id'    => 'required|exists:categories,id',
-        'promotion_type' => 'nullable|string|in:15_descuento,2x1,Madre',
+        'name'         => 'required|string|max:255',
+        'description'  => 'nullable|string',
+        'price'        => 'required|numeric|min:0',
+        'image'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'category_id'  => 'required|exists:categories,id',
+        'promotion_id' => 'nullable|exists:promotions,id',
     ]);
 
-    // … lógica de imagen (igual que antes) …
-
-    // Define ID de tu categoría "Promociones"
+    // ID de categoría "Promociones"
     $promoCategoryId = 4;
 
-    // Solo asignamos promotion_type si la categoría es la de Promociones
-    $newPromoType = $request->category_id == $promoCategoryId
-        ? $request->promotion_type
+    // Solo asignamos promotion_id si la categoría es Promociones
+    $newPromotionId = $request->category_id == $promoCategoryId
+        ? $request->promotion_id
         : null;
 
+    // Actualizar producto
     $product->update([
-        'name'           => $request->name,
-        'description'    => $request->description,
-        'price'          => $request->price,
-        'category_id'    => $request->category_id,
-        'promotion_type' => $newPromoType,     // <— aquí
-        'image'          => $product->image,
+        'name'         => $request->name,
+        'description'  => $request->description,
+        'price'        => $request->price,
+        'category_id'  => $request->category_id,
+        'promotion_id' => $newPromotionId,  // ← aquí va promotion_id
+        'image'        => $product->image,  // solo si no cambió
     ]);
 
-    return redirect()->back()->with('success', 'Producto actualizado correctamente.');
+    // Actualizar imagen si se subió una nueva
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('products', 'public');
+        $product->update(['image' => $imagePath]);
+    }
+
+    return redirect()->back()->with('alert', 'Producto actualizado correctamente.');
 }
 }

@@ -17,6 +17,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\PromotionController;
 
 
 
@@ -179,4 +180,10 @@ Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/products/search', [ProductController::class, 'search'])->name('products.search');
 Route::get('/products/search/ajax', [ProductController::class, 'searchAjax'])->name('products.search.ajax');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('promotions/create', [PromotionController::class, 'create'])->name('promotions.create');
+Route::post('promotions', [PromotionController::class, 'store'])->name('promotions.store');
+Route::resource('promotions', PromotionController::class);
+Route::patch('/promotions/{promotion}/toggle', [PromotionController::class, 'toggleActive'])->name('promotions.toggle');
+Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
 

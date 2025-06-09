@@ -142,5 +142,106 @@ AOS.init();
             document.getElementById('loader').classList.add('hidden');
         }
     </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const setupModernSearch = (idPrefix) => {
+        const searchInput = document.getElementById(`${idPrefix}SearchInput`);
+        const searchResults = document.getElementById(`${idPrefix}SearchResults`);
+        const searchWrapper = document.querySelector(`.${idPrefix}-search-wrapper`);
+        const inputWrapper = document.querySelector(`.${idPrefix}-search-input-wrapper`);
+        const searchIcon = document.querySelector(`.${idPrefix}-search-icon`);
+        const dropdownContent = searchResults.querySelector(`.${idPrefix}-search-dropdown-content`);
+
+        if (!searchInput) return;
+
+        let searchTimeout;
+
+        function apiCall(query) {
+           return fetch(`{{ route('products.search.ajax') }}?search=${encodeURIComponent(query)}`, {
+               method: 'GET',
+               headers: {
+                   'X-Requested-With': 'XMLHttpRequest',
+                   'Accept': 'application/json',
+               }
+           }).then(response => response.json());
+        }
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            clearTimeout(searchTimeout);
+            if (query.length < 2) {
+                hideResults();
+                return;
+            }
+            inputWrapper.classList.add('animate-pulse');
+            searchTimeout = setTimeout(() => {
+                apiCall(query)
+                .then(data => {
+                    displayResults(data.products);
+                    inputWrapper.classList.remove('animate-pulse');
+                })
+                .catch(error => {
+                    console.error('Error en la búsqueda AJAX:', error);
+                    inputWrapper.classList.remove('animate-pulse');
+                });
+            }, 300);
+        });
+
+        function displayResults(products) {
+            if (!products || products.length === 0) {
+                dropdownContent.innerHTML = `
+                    <div class="p-6 text-center text-gray-500">
+                        <div class="text-xl mb-2">🤷‍♂️</div>
+                        <div>No se encontraron productos</div>
+                    </div>`;
+            } else {
+                dropdownContent.innerHTML = products.map((product) => `
+                    <div class="search-result-item p-4 border-b border-gray-100 last:border-b-0 cursor-pointer transition-colors duration-200 hover:bg-indigo-50" onclick="navigateToProduct(${product.id})">
+                        <div class="flex items-center space-x-4">
+                            ${product.image ?
+                                `<img src="/storage/${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0">` :
+                                `<div class="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center"><svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>`
+                            }
+                            <div class="min-w-0">
+                                <div class="font-semibold text-gray-800 truncate">${product.name}</div>
+                                ${product.description ? `<div class="text-sm text-gray-600 truncate">${product.description}</div>` : ''}
+                                <div class="text-sm font-bold text-indigo-600 mt-1">$${parseFloat(product.price).toLocaleString()}</div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            showResults();
+        }
+
+        function showResults() {
+            searchResults.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+        }
+
+        function hideResults() {
+            searchResults.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+        }
+
+        window.navigateToProduct = function(productId) {
+            hideResults();
+            if(typeof showLoader === 'function') {
+                showLoader();
+            }
+            window.location.href = `/products/${productId}`;
+        };
+
+        document.addEventListener('click', function(event) {
+            if (searchWrapper && !searchWrapper.contains(event.target)) {
+                hideResults();
+            }
+        });
+    }
+
+    setupModernSearch('modern');
+    setupModernSearch('modern-mobile');
+});
+</script>
 </body>
 </html>

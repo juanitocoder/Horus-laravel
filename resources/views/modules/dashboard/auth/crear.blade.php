@@ -82,14 +82,14 @@
                             @endforeach
                         </select>
                         <!-- Campo de tipo de promoción (visible solo si se selecciona Promociones) -->
-                            <div id="promotionTypeField" class="hidden">
-                                <label for="promotion_type" class="block text-sm font-medium text-[#f5e7d5] mb-1">Tipo de Promoción</label>
-                                <select name="promotion_type" id="promotion_type"
+                            <div>
+                                <label for="promotion_id" class="block text-sm font-medium text-[#f5e7d5] mb-1">Promoción</label>
+                                <select name="promotion_id" id="promotion_id"
                                     class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-blue-600 placeholder-gray-800 focus:outline-none focus:ring-2 focus:ring-[#cfbea7] focus:border-transparent transition duration-200">
-                                    <option value="" disabled selected>Selecciona tipo de promoción</option>
-                                    <option value="15_descuento">15% Descuento</option>
-                                    <option value="2x1">2x1</option>
-                                    <option value="Madre">Dia de la madre</option>
+                                    <option value="" selected>Sin promoción</option>
+                                    @foreach($promotions as $promotion)
+                                        <option value="{{ $promotion->id }}">{{ $promotion->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         @error('category_id')

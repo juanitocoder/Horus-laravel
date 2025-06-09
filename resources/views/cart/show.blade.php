@@ -7,14 +7,23 @@
     @php
     $total = 0;
     foreach ($cart->items as $item) {
-        $total += $item->product->price * $item->quantity;
+        $price = $item->product->price;
+        $discount = $item->product->promotion->discount_percentage ?? 0;
+        $discountedPrice = $discount > 0 ? round($price * (1 - $discount / 100)) : $price;
+        $total += $discountedPrice * $item->quantity;
     }
     @endphp
+    
     
     @if ($cart && $cart->items->count() > 0)
         <div class="bg-gray-800/50 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-gray-700">
             <div class="grid gap-6">
                 @foreach ($cart->items as $item)
+                    @php
+                        $price = $item->product->price;
+                        $discount = $item->product->promotion->discount_percentage ?? 0;
+                        $discountedPrice = $discount > 0 ? round($price * (1 - $discount / 100)) : $price;
+                    @endphp
                     <div class="bg-white/10 backdrop-blur-sm shadow-xl rounded-2xl p-5 flex flex-col sm:flex-row items-center sm:items-start gap-6 border border-gray-700 transition-all hover:border-blue-500">
                         <div class="relative w-28 h-28">
                             <img src="{{ asset('storage/' . $item->product->image) }}"
@@ -27,7 +36,7 @@
                         
                         <div class="flex-1 w-full">
                             <p class="text-xl font-semibold text-white">{{ $item->product->name }}</p>
-                            <p class="text-blue-400 font-semibold mb-4">${{ number_format($item->product->price, 0, ',', '.') }} COP</p>
+                            <p class="text-blue-400 font-semibold mb-4"> ${{ number_format($discountedPrice, 0, ',', '.') }} COP</p>
                             
                             <div class="flex items-center gap-3 bg-gray-800/50 p-2 rounded-xl w-fit">
                                 <!-- Disminuir cantidad -->
@@ -54,7 +63,7 @@
                         <!-- Precio total del ítem -->
                         <div class="text-right hidden sm:block">
                             <p class="text-gray-400 text-sm">Subtotal</p>
-                            <p class="text-xl font-bold text-white">${{ number_format($item->product->price * $item->quantity, 0, ',', '.') }} COP</p>
+                            <p class="text-xl font-bold text-white">${{ number_format($discountedPrice * $item->quantity, 0, ',', '.') }} COP</p>
                         </div>
                         
                         <!-- Eliminar -->

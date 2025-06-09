@@ -30,10 +30,39 @@ class Product extends Model
         'image',
         'category_id',
         'promotion_type',
+        'promotion_id',
     ];
 
     public function comments()
 {
     return $this->hasMany(Comment::class);
 }
+
+
+    /**
+     * Relación con promoción
+     */
+    public function promotion()
+    {
+        return $this->belongsTo(Promotion::class);
+    }
+
+    /**
+     * Obtener precio con descuento aplicado
+     */
+    public function getDiscountedPriceAttribute()
+    {
+        if ($this->promotion) {
+            return $this->promotion->calculateDiscountedPrice($this->price);
+        }
+        return $this->price;
+    }
+
+    /**
+     * Verificar si tiene promoción activa
+     */
+    public function hasActivePromotion()
+    {
+        return $this->promotion && $this->promotion->is_active;
+    }
 }

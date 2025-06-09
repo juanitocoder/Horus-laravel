@@ -157,10 +157,11 @@
                 ? $producto->ratings()->where('user_id', auth()->id())->first()
                 : null;
     
-            $precio = $producto->price;
-            $precioConDescuento = $producto->promotion_type === '15_descuento'
-                ? round($precio * 0.85)
-                : $precio;
+        $titleColor = $producto->promotion->title_color ?? 'text-gray-900';
+        $priceColor = $producto->promotion->price_color ?? 'text-gray-900';
+        $precio = $producto->price;
+        $descuento = $producto->promotion->discount_percentage ?? 0;
+        $precioConDescuento = $descuento > 0 ? round($precio * (1 - $descuento / 100)) : $precio;
         @endphp
     
         <div class="group relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl transform hover:-translate-y-1">
@@ -176,6 +177,7 @@
                 <!-- Overlay hover -->
                 <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                     <div class="p-4 w-full">
+                        
                         <span
                             @click.stop="abrirModal({
                                 name: '{{ $producto->name }}',
@@ -204,19 +206,11 @@
             <div class="p-5 bg-white">
                 {{-- Calcula la clase de color para el título --}}
                     @php
-                        switch($producto->promotion_type) {
-                            case '15_descuento':
-                                $titleColor = 'text-red-600';
-                                break;
-                            case '2x1':
-                                $titleColor = 'text-green-600';
-                                break;
-                            case 'Madre':
-                                $titleColor = 'text-pink-600';
-                                break;
-                            default:
-                                $titleColor = 'text-gray-900';
-                        }
+                        $titleColor = $producto->promotion->title_color ?? 'text-gray-900';
+                        $priceColor = $producto->promotion->price_color ?? 'text-gray-900';
+                         $precio = $producto->price;
+                        $descuento = $producto->promotion->discount_percentage ?? 0;
+                        $precioConDescuento = $descuento > 0 ? round($precio * (1 - $descuento / 100)) : $precio;
                     @endphp
                {{-- Título con color dinámico --}}
                     <h5 class="text-xl font-bold tracking-tight mb-2 {{ $titleColor }}">
@@ -258,44 +252,37 @@
                         </span>
                     </div>
                 </div>
-    
+                    
                      <!-- Precio y botón -->
-                <div class="flex items-center justify-between mt-2">
-                    @if ($producto->promotion_type === '15_descuento')
+                    <div class="flex items-center justify-between mt-2">
+
+                        @php
+                            $precio = $producto->price;
+                            $descuento = $producto->promotion->discount_percentage ?? 0;
+                            $precioConDescuento = $descuento > 0 ? round($precio * (1 - $descuento / 100)) : $precio;
+                        @endphp
+
                         <div class="flex flex-col">
-                            <span class="text-sm text-gray-400 line-through">
-                                COP {{ number_format($precio, 0, ',', '.') }}
-                            </span>
-                            <span class="text-2xl font-bold text-red-600">
+                            {{-- Si hay descuento, mostrar precio tachado --}}
+                            @if ($descuento > 0)
+                                <span class="text-sm text-gray-400 line-through">
+                                    COP {{ number_format($precio, 0, ',', '.') }}
+                                </span>
+                            @endif
+
+                            {{-- Precio con color de promoción o color base --}}
+                            <span class="text-2xl font-bold {{ $producto->promotion->price_color ?? 'text-gray-900' }}">
                                 COP {{ number_format($precioConDescuento, 0, ',', '.') }}
                             </span>
+
+                            {{-- Mostrar etiqueta de promoción si existe --}}
+                            @if ($producto->promotion)
+                                <span class="text-sm {{ $producto->promotion->title_color }} font-semibold">
+                                    {{ $producto->promotion->description_text }}
+                                </span>
+                            @endif
                         </div>
-                    @elseif ($producto->promotion_type === '2x1')
-                        <div class="flex flex-col">
-                            <span class="text-2xl font-bold text-green-600">
-                                COP {{ number_format($precio, 0, ',', '.') }}
-                            </span>
-                            <span class="text-sm text-green-700 font-semibold">
-                                Llévate 2 por el precio de 1
-                            </span>
-                        </div>
-                    @elseif ($producto->promotion_type === 'Madre')
-                        <div class="flex flex-col">
-                            {{-- Precio normal en rosa --}}
-                            <span class="text-2xl font-bold text-pink-600">
-                                COP {{ number_format($precio, 0, ',', '.') }}
-                            </span>
-                            {{-- Etiqueta especial --}}
-                            <span class="text-sm text-pink-500 font-semibold">
-                                Edición especial Día de la Madre 💐
-                            </span>
-                        </div>
-                    @else
-                        <span class="text-2xl font-bold text-gray-900">
-                            COP {{ number_format($precio, 0, ',', '.') }}
-                        </span>
-                    @endif
-    
+                        
                     <button
                         @click.stop="abrirModal({ 
                             name: '{{ $producto->name }}',
