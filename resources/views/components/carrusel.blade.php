@@ -12,16 +12,16 @@
                 ]
             },
             {
-                title: 'Día de la Madre',
+                title: 'Descuentos de Temporada',
                 link: '/mamá',
                 items: [
-                    { img: '{{ asset('images/Promos/Madre1.jpg') }}', badge: 'MAMÁ' },
+                    { img: '{{ asset('images/Promos/Madre1.jpg') }}', badge: 'Unicas' },
                     { img: '{{ asset('images/Promos/Madre2.jpg') }}', badge: '-20%' },
                     { img: '{{ asset('images/Promos/Madre3.jpg') }}', badge: 'REGALO' }
                 ]
             },
             {
-                title: '15% Descuento',
+                title: 'Pulseras en promoción',
                 link: '/coleccion',
                 items: [
                     { img: '{{ asset('images/Promos/Descuento1.jpg') }}', badge: 'NUEVO' },

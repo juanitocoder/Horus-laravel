@@ -196,4 +196,9 @@ Route::get('/orden-exito', function () {
 })->name('orden.exito');
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->name('productos.analisis');
-Route::get('/checkout/finalizar', [CheckoutController::class, 'finalizar'])->name('checkout.finalizar');
+
+//Facturas
+Route::post('/checkout', [CheckoutController::class, 'finalizarCompra'])->name('checkout.finalizar');
+Route::get('/factura/{id}', [CheckoutController::class, 'verFactura'])->name('factura.ver');
+//Descargar factura pdf
+Route::get('/pdf/{id}/pdf', [CheckoutController::class, 'descargarFactura'])->name('factura.pdf');
