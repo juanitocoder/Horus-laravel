@@ -105,6 +105,17 @@
                             </button>
                         </form>
 
+
+                    <!--Finalizar Compra-->
+                    <form action="{{ route('checkout.finalizar') }}" method="POST" class="w-full sm:w-auto">
+                        @csrf
+                        <button type="submit" class="group bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 py-3 rounded-xl transition-all flex items-center gap-2 w-full justify-center shadow-lg">
+                            <span>Facturación</span>
+                            <x-heroicon-o-shopping-cart class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </button>
+                    </form>
+
+                    
                     <form>
                         <script 
                             src="https://checkout.epayco.co/checkout.js"

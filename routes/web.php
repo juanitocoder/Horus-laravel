@@ -20,7 +20,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAnalysisController;
-
+use App\Http\Controllers\CheckoutController;
 
 
 // Rutas principales
@@ -196,3 +196,4 @@ Route::get('/orden-exito', function () {
 })->name('orden.exito');
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->name('productos.analisis');
+Route::get('/checkout/finalizar', [CheckoutController::class, 'finalizar'])->name('checkout.finalizar');

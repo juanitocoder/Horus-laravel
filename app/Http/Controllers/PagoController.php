@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
+use App\Models\Order;
 
 class PagoController extends Controller
 {
@@ -71,6 +72,7 @@ class PagoController extends Controller
                                 ]);
                             }
                         }
+                        
                     }
 
                 Log::info("Orden creada con ID: {$order->id}");
@@ -105,6 +107,36 @@ class PagoController extends Controller
         Log::info("=== FIN WEBHOOK CONFIRMATION ===");
         return response('OK', 200); // ePayco requiere una respuesta 200
     }
+      public function finalizarCompra()
+{
+    $user = \Illuminate\Support\Facades\Auth::user();
+    $cart = $user->cart; // Suponiendo que tienes relación entre usuario y carrito
+
+    // Calcular total del carrito
+    $total = $cart->items->sum(function ($item) {
+        return $item->product->price * $item->quantity;
+    });
+
+    // Crear la orden
+    $order = Order::create([
+        'user_id' => $user->id,
+        'total' => $total,
+        'status' => 'completado', // o 'pendiente' si vas a esperar confirmación de ePayco
+    ]);
+
+    // Agregar productos a la orden
+    foreach ($cart->items as $item) {
+        $order->items()->create([
+            'product_id' => $item->product_id,
+            'cantidad' => $item->quantity,
+            'precio_unitario' => $item->product->price,
+        ]);
+    }
+
+    
+
+    return redirect()->route('orden.exito')->with('success', '¡Orden completada con éxito!');
+}
 
     /**
      * Limpiar carrito del usuario desde la base de datos
