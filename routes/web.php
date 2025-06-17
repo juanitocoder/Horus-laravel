@@ -18,6 +18,8 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductAnalysisController;
 
 
 
@@ -187,3 +189,10 @@ Route::resource('promotions', PromotionController::class);
 Route::patch('/promotions/{promotion}/toggle', [PromotionController::class, 'toggleActive'])->name('promotions.toggle');
 Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
 
+Route::get('/historial', [OrderController::class, 'historial'])->name('ordenes.historial');
+Route::post('/finalizar-compra', [CartController::class, 'finalizarCompra'])->name('cart.finalizar');
+Route::get('/orden-exito', function () {
+    return view('cart.exito'); // o crea la vista correspondiente
+})->name('orden.exito');
+Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
+Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->name('productos.analisis');

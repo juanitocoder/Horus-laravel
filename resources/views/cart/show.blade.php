@@ -98,7 +98,13 @@
                         <x-heroicon-o-arrow-left class="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
                         <span>Seguir comprando</span>
                     </a>
-                    
+                    <form action="{{ route('cart.finalizar') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Finalizar Compra
+                            </button>
+                        </form>
+
                     <form>
                         <script 
                             src="https://checkout.epayco.co/checkout.js"

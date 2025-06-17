@@ -54,6 +54,24 @@ class PagoController extends Controller
                     'email' => $x_customer_email,
                     'status' => $x_response,
                 ]);
+                if ($user) {
+                        $cart = \App\Models\Cart::where('user_id', $user->id)->first();
+
+                        if ($cart) {
+                            $cartItems = \App\Models\CartItem::where('cart_id', $cart->id)->get();
+
+                            foreach ($cartItems as $item) {
+                            \App\Models\Order::create([
+                                    'user_id' => $user ? $user->id : null,
+                                    'transaction_id' => $x_transaction_id,
+                                    'amount' => $x_amount,
+                                    'currency' => $x_currency_code,
+                                    'email' => $x_customer_email,
+                                    'status' => $x_response,
+                                ]);
+                            }
+                        }
+                    }
 
                 Log::info("Orden creada con ID: {$order->id}");
 

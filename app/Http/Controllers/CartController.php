@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\CartItem;
+use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 class CartController extends Controller
 {
@@ -63,4 +64,36 @@ class CartController extends Controller
             
             return redirect()->back()->with('alert', 'El carrito ya estaba vacío');
         }
+
+        public function finalizarCompra()
+{
+    $user = auth()->user();
+    $cart = $user->cart; // Suponiendo que tienes relación entre usuario y carrito
+
+    // Calcular total del carrito
+    $total = $cart->items->sum(function ($item) {
+        return $item->product->price * $item->quantity;
+    });
+
+    // Crear la orden
+    $order = Order::create([
+        'user_id' => $user->id,
+        'total' => $total,
+        'status' => 'completado', // o 'pendiente' si vas a esperar confirmación de ePayco
+    ]);
+
+    // Agregar productos a la orden
+    foreach ($cart->items as $item) {
+        $order->items()->create([
+            'product_id' => $item->product_id,
+            'cantidad' => $item->quantity,
+            'precio_unitario' => $item->product->price,
+        ]);
+    }
+
+    // (Opcional) Vaciar el carrito
+    $cart->items()->delete();
+
+    return redirect()->route('orden.exito')->with('success', '¡Orden completada con éxito!');
+}
 }

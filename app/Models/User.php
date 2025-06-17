@@ -69,4 +69,8 @@ class User extends Authenticatable implements CanResetPassword
     {
         $this->notify(new PasswordResetNotification($token));
     }
+    public function orders()
+{
+    return $this->hasMany(\App\Models\Order::class);
+}
 }

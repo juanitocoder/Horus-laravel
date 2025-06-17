@@ -98,10 +98,10 @@
             
             <!-- Bloque de Pago -->
             <div class="flex justify-center mt-8">
-                <div class="flex gap-3 items-center bg-white rounded-lg px-4 py-2">
-                    <span class="text-xs text-black">Métodos de pago:</span>
+                <div class="flex gap-3 items-center bg-gradient-to-b from-[#2b2d42] to-[#1a1b2e] rounded-lg px-4 py-2">
+                    <span class="text-xs text-white">Métodos de pago:</span>
                     <div class="flex gap-2">
-                        <img src="{{ asset('images/nequi-3.svg') }}" alt="Nequi" class="h-6 w-auto opacity-70 hover:opacity-100 transition-opacity">
+                        <img src="{{ asset('images/epayco.jpeg') }}" alt="epayco" class="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity">
                     </div>
                 </div>
             </div>

@@ -65,4 +65,29 @@ class Product extends Model
     {
         return $this->promotion && $this->promotion->is_active;
     }
+    
+     use HasFactory;
+
+
+    protected $casts = [
+        'price' => 'decimal:2'
+    ];
+
+    // Relación con OrderItems
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    // Accessor para obtener total vendido
+    public function getTotalVendidoAttribute()
+    {
+        return $this->orderItems()->sum('cantidad');
+    }
+
+    // Accessor para obtener ingresos totales
+    public function getIngresosGeneradosAttribute()
+    {
+        return $this->orderItems()->sum(\DB::raw('cantidad * precio_unitario'));
+    }
 }

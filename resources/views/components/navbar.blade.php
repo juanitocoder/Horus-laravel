@@ -79,7 +79,14 @@
                     </span>
                 @endif
             </a>
-
+            <a href="{{ route('ordenes.historial') }}"
+                onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
+                class="flex items-center hover:text-yellow-400 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <span>Historial de Compras</span>
+                </a>
             @auth
                 <div x-data="{ adminSidebarOpen: false }" class="relative">
 
@@ -154,7 +161,7 @@
 
                     <div class="p-4">
                         <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3">Panel de administración</h3>
-                        <a href="/admin/graficas" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
+                        <a href="/productos/analisis" class="flex items-center py-3 px-2 text-gray-300 hover:bg-gray-800 hover:text-white rounded transition duration-200" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                             </svg>
@@ -337,7 +344,7 @@
                         @if(Auth::user()->role->name === 'admin'|| Auth::user()->role->name === 'superadmin')
                             <div class="mb-6 space-y-2">
                                 <h3 class="text-xs uppercase text-gray-500 font-semibold">Panel de administración</h3>
-                                <a href="/admin/graficas" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
+                                <a href="/productos/analisis" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition" onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                                     </svg>
@@ -405,8 +412,16 @@
                                 </span>
                             @endif
                         </a>
+                        <a href="{{ route('ordenes.historial') }}" 
+                            class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"
+                            onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                                </svg>
+                                <span>Historial de Compras</span>
+                        </a>
                     </div>
-
+                        
                     @auth
                         <div class="mt-6 pt-6 border-t border-gray-700">
                             <a href="{{ route('perfil.editar') }}" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"

@@ -12,9 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    $table->id();
+    $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+    $table->string('transaction_id')->nullable(); // ✅
+    $table->decimal('amount', 10, 2)->nullable();  // ✅
+    $table->string('currency')->nullable();       // ✅
+    $table->string('email')->nullable();          // ✅
+    $table->string('status')->default('completado');
+    $table->decimal('total', 10, 2)->nullable();  // ✅ opcional si ya usas amount
+    $table->timestamps();
+});
     }
 
     /**
