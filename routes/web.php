@@ -18,6 +18,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PagoController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\CheckoutController;
 
 
 
@@ -187,3 +188,8 @@ Route::resource('promotions', PromotionController::class);
 Route::patch('/promotions/{promotion}/toggle', [PromotionController::class, 'toggleActive'])->name('promotions.toggle');
 Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->name('promotions.update');
 
+//Factura
+Route::post('/checkout', [CheckoutController::class, 'finalizarCompra'])->name('checkout.finalizar');
+Route::get('/factura/{id}', [CheckoutController::class, 'verFactura'])->name('factura.ver');
+//Descargar factura pdf
+Route::get('/pdf/{id}/pdf', [CheckoutController::class, 'descargarFactura'])->name('factura.pdf');
