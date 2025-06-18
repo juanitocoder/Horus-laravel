@@ -3,7 +3,7 @@
 @section('title', 'Historial de Compras')
 
 @section('content')
-<div class="min-h-screen  py-8">
+<div class="min-h-screen py-8">
     <div class="max-w-6xl mx-auto px-4">
         <!-- Header -->
         <div class="mb-8">
@@ -79,23 +79,39 @@
                         <!-- Contenido de la orden -->
                         <div class="p-6">
                             <!-- Items de la orden -->
-                            <div class="space-y-3 mb-6">
+                            <div class="space-y-4 mb-6">
                                 @foreach($orden->items as $item)
                                     <div class="flex items-center justify-between p-4 bg-gray-750 border border-gray-700 rounded-xl hover:bg-gray-700 transition-colors">
                                         <div class="flex items-center space-x-4">
-                                            <div class="w-10 h-10 bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                                                </svg>
+                                            <!-- Imagen del producto -->
+                                            <div class="w-16 h-16 bg-gray-600 rounded-lg overflow-hidden flex-shrink-0">
+                                                @if($item->product->imagen)
+                                                    <img src="{{ asset('storage/products/' . $item->product->imagen) }}" 
+                                                         alt="{{ $item->product->nombre }}"
+                                                         class="w-full h-full object-cover">
+                                                @else
+                                                    <!-- Placeholder cuando no hay imagen -->
+                                                    <div class="w-full h-full bg-gray-600 flex items-center justify-center">
+                                                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                        </svg>
+                                                    </div>
+                                                @endif
                                             </div>
-                                            <div>
-                                                <h4 class="font-semibold text-white">{{ $item->product->nombre }}</h4>
-                                                <p class="text-sm text-gray-400">Cantidad: {{ $item->cantidad }}</p>
+                                            
+                                            <!-- Información del producto -->
+                                            <div class="flex-grow">
+                                                <h4 class="font-semibold text-white text-lg">{{ $item->product->nombre }}</h4>
+                                                <p class="text-sm text-gray-400 mb-1">Cantidad: {{ $item->cantidad }}</p>
+                                                @if($item->product->descripcion)
+                                                    <p class="text-xs text-gray-500 line-clamp-2">{{ Str::limit($item->product->descripcion, 80) }}</p>
+                                                @endif
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <div class="font-bold text-white">${{ number_format($item->precio_unitario * $item->cantidad, 0, ',', '.') }}</div>
-                                            <div class="text-sm text-gray-400">${{ number_format($item->precio_unitario, 0, ',', '.') }} c/u</div>
+                                        
+                                        <!-- Precios -->
+                                        <div class="text-right flex-shrink-0 ml-4">
+                                            <div class="font-bold text-white text-lg">${{ number_format($item->precio_unitario * $item->cantidad, 0, ',', '.') }}</div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -112,12 +128,14 @@
                                     </div>
                                 </div>
                                 <div class="flex space-x-3">
-                                    <button class="inline-flex items-center px-4 py-2 bg-gray-700 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 hover:text-white transition-colors">
+                                    <a href="{{ route('invoice.download', $orden->id) }}" 
+                                    class="inline-flex items-center px-4 py-2 bg-gray-700 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-600 hover:text-white transition-colors"
+                                    target="_blank">
                                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                         </svg>
                                         Descargar Factura
-                                    </button>
+                                    </a>
                                     @if($orden->status === 'completada')
                                         <button class="inline-flex items-center px-4 py-2 bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 transition-colors font-medium">
                                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,6 +173,14 @@
     
     .hover\:shadow-xl:hover {
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Utilidad para limitar líneas de texto */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     
     /* Personalización de la paginación para tema oscuro */
@@ -198,4 +224,3 @@
     }
 </style>
 @endsection
-

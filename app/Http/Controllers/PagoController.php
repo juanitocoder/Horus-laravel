@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
-use App\Models\Order;
 
 class PagoController extends Controller
 {
@@ -107,36 +106,6 @@ class PagoController extends Controller
         Log::info("=== FIN WEBHOOK CONFIRMATION ===");
         return response('OK', 200); // ePayco requiere una respuesta 200
     }
-      public function finalizarCompra()
-{
-    $user = \Illuminate\Support\Facades\Auth::user();
-    $cart = $user->cart; // Suponiendo que tienes relación entre usuario y carrito
-
-    // Calcular total del carrito
-    $total = $cart->items->sum(function ($item) {
-        return $item->product->price * $item->quantity;
-    });
-
-    // Crear la orden
-    $order = Order::create([
-        'user_id' => $user->id,
-        'total' => $total,
-        'status' => 'completado', // o 'pendiente' si vas a esperar confirmación de ePayco
-    ]);
-
-    // Agregar productos a la orden
-    foreach ($cart->items as $item) {
-        $order->items()->create([
-            'product_id' => $item->product_id,
-            'cantidad' => $item->quantity,
-            'precio_unitario' => $item->product->price,
-        ]);
-    }
-
-    
-
-    return redirect()->route('orden.exito')->with('success', '¡Orden completada con éxito!');
-}
 
     /**
      * Limpiar carrito del usuario desde la base de datos
@@ -167,42 +136,7 @@ class PagoController extends Controller
      * Método para limpiar el carrito desde el frontend después del pago
      * (Método alternativo - el webhook ya debería haber limpiado el carrito)
      */
-    public function clearCartAfterPayment(Request $request)
-    {
-        $ref_payco = $request->input('ref_payco');
-        
-        // Verificar que el pago fue exitoso consultando a ePayco
-        $response = Http::get("https://secure.epayco.co/validation/v1/reference/$ref_payco");
-        
-        if ($response->ok()) {
-            $data = $response->json();
-            
-            if ($data['data']['x_response'] == 'Aceptada') {
-                $user_email = $data['data']['x_customer_email'];
-                $user = \App\Models\User::where('email', $user_email)->first();
-                
-                if ($user) {
-                    $cleared = $this->clearUserCart($user->id);
-                    
-                    return response()->json([
-                        'success' => true,
-                        'message' => $cleared ? 'Carrito limpiado exitosamente' : 'El carrito ya estaba vacío',
-                        'already_cleared' => !$cleared
-                    ]);
-                } else {
-                    return response()->json([
-                        'success' => false,
-                        'message' => 'Usuario no encontrado'
-                    ]);
-                }
-            }
-        }
-        
-        return response()->json([
-            'success' => false,
-            'message' => 'No se pudo verificar el pago'
-        ]);
-    }
+   
 
     /**
      * Método alternativo: verificar estado del pago

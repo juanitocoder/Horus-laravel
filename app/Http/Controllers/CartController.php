@@ -91,9 +91,9 @@ class CartController extends Controller
         ]);
     }
 
-    // (Opcional) Vaciar el carrito
+    //  Vaciar el carrito
     $cart->items()->delete();
 
-    return redirect()->route('orden.exito')->with('success', '¡Orden completada con éxito!');
+    return redirect()->route('orden.exito')->with('alert', '¡Orden completada con éxito!');
 }
 }

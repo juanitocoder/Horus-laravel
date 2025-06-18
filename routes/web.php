@@ -21,6 +21,7 @@ use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductAnalysisController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\InvoiceController;
 
 
 // Rutas principales
@@ -192,7 +193,7 @@ Route::put('/promotions/{promotion}', [PromotionController::class, 'update'])->n
 Route::get('/historial', [OrderController::class, 'historial'])->name('ordenes.historial');
 Route::post('/finalizar-compra', [CartController::class, 'finalizarCompra'])->name('cart.finalizar');
 Route::get('/orden-exito', function () {
-    return view('cart.exito'); // o crea la vista correspondiente
+    return view('modules.dashboard.auth.home'); // o crea la vista correspondiente
 })->name('orden.exito');
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->name('productos.analisis');
@@ -201,4 +202,7 @@ Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->
 Route::post('/checkout', [CheckoutController::class, 'finalizarCompra'])->name('checkout.finalizar');
 Route::get('/factura/{id}', [CheckoutController::class, 'verFactura'])->name('factura.ver');
 //Descargar factura pdf
-Route::get('/pdf/{id}/pdf', [CheckoutController::class, 'descargarFactura'])->name('factura.pdf');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/invoice/download/{order}', [InvoiceController::class, 'downloadInvoice'])
+        ->name('invoice.download');
+});
