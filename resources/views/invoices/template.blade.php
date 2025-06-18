@@ -270,9 +270,9 @@
                 @foreach($orden->items as $item)
                 <tr>
                     <td>
-                        <strong>{{ $item->product->nombre }}</strong>
-                        @if($item->product->descripcion)
-                        <br><small style="color: #666;">{{ Str::limit($item->product->descripcion, 60) }}</small>
+                        <strong>{{ $item->product->name }}</strong>
+                        @if($item->product->description)
+                        <br><small style="color: #666;">{{ Str::limit($item->product->description, 60) }}</small>
                         @endif
                     </td>
                     <td class="text-center">{{ $item->cantidad }}</td>
