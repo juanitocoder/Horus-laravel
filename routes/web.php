@@ -198,9 +198,6 @@ Route::get('/orden-exito', function () {
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/analisis', [ProductAnalysisController::class, 'index'])->name('productos.analisis');
 
-//Facturas
-Route::post('/checkout', [CheckoutController::class, 'finalizarCompra'])->name('checkout.finalizar');
-Route::get('/factura/{id}', [CheckoutController::class, 'verFactura'])->name('factura.ver');
 //Descargar factura pdf
 Route::middleware(['auth'])->group(function () {
     Route::get('/invoice/download/{order}', [InvoiceController::class, 'downloadInvoice'])

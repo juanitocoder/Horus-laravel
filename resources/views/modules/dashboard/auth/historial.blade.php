@@ -85,9 +85,9 @@
                                         <div class="flex items-center space-x-4">
                                             <!-- Imagen del producto -->
                                             <div class="w-16 h-16 bg-gray-600 rounded-lg overflow-hidden flex-shrink-0">
-                                                @if($item->product->imagen)
-                                                    <img src="{{ asset('storage/products/' . $item->product->imagen) }}" 
-                                                         alt="{{ $item->product->nombre }}"
+                                                @if($item->product->image)
+                                                    <img src="{{ asset('storage/' . $item->product->image) }}" 
+                                                         alt="{{ $item->product->name }}"
                                                          class="w-full h-full object-cover">
                                                 @else
                                                     <!-- Placeholder cuando no hay imagen -->
@@ -101,10 +101,10 @@
                                             
                                             <!-- Información del producto -->
                                             <div class="flex-grow">
-                                                <h4 class="font-semibold text-white text-lg">{{ $item->product->nombre }}</h4>
+                                                <h4 class="font-semibold text-white text-lg">{{ $item->product->name }}</h4>
                                                 <p class="text-sm text-gray-400 mb-1">Cantidad: {{ $item->cantidad }}</p>
-                                                @if($item->product->descripcion)
-                                                    <p class="text-xs text-gray-500 line-clamp-2">{{ Str::limit($item->product->descripcion, 80) }}</p>
+                                                @if($item->product->description)
+                                                    <p class="text-xs text-gray-500 line-clamp-2">{{ Str::limit($item->product->description, 80) }}</p>
                                                 @endif
                                             </div>
                                         </div>
@@ -112,6 +112,7 @@
                                         <!-- Precios -->
                                         <div class="text-right flex-shrink-0 ml-4">
                                             <div class="font-bold text-white text-lg">${{ number_format($item->precio_unitario * $item->cantidad, 0, ',', '.') }}</div>
+                                            <div class="text-sm text-gray-400">${{ number_format($item->precio_unitario, 0, ',', '.') }} c/u</div>
                                         </div>
                                     </div>
                                 @endforeach
