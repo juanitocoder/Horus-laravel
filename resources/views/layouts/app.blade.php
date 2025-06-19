@@ -27,9 +27,11 @@
             <x-alert type="success" :message="session('alert')" />
         @endif
 
+
         <header>
             <x-navbar />
         </header>
+
 
         <!-- Contenido principal -->
         <main class="flex-grow">
@@ -42,15 +44,15 @@
             @yield('scripts')
             @yield('promo')
         </main>
-        
+       
         <!-- Footer -->
         <footer>
             <x-footer />
         </footer>
     </div>
-        
+       
     <script>
-        
+       
         function submitRating(productId, ratingValue) {
             fetch('/ratings', {
                 method: 'POST',
@@ -66,6 +68,7 @@
             .then(async (response) => {
                 const contentType = response.headers.get("content-type");
 
+
                 // Si no es JSON, es probablemente un HTML de redirección
                 if (!contentType || !contentType.includes("application/json")) {
                     const text = await response.text();
@@ -77,6 +80,7 @@
                         return;
                     }
                 }
+
 
                 const data = await response.json();
                 console.log("Rating enviado correctamente:", data);
@@ -95,14 +99,19 @@
         }
 </script>
 
+
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+
 
 
 <script>
 AOS.init();
 </script>
 
+
 <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 
 <div x-data="{ open: false }" class="fixed bottom-5 right-5 z-50 text-white x-cloak" x-cloak>
     <!-- Botón de WhatsApp (icono SVG incluido) -->
@@ -115,8 +124,9 @@ AOS.init();
         </svg>
     </button>
 
+
     <!-- Caja desplegable -->
-    <div x-show="open" x-transition 
+    <div x-show="open" x-transition
         class="mt-2 bg-white text-gray-800 rounded-xl shadow-lg p-4 w-64"
         @click.outside="open = false">
         <p class="font-semibold text-sm">¿Estás interesado en nuestro catálogo?</p>
@@ -132,19 +142,24 @@ AOS.init();
  @include('components.loader')
 
 
+
+
     <!-- Scripts -->
     <script>
         function showLoader() {
             document.getElementById('loader').classList.remove('hidden');
         }
 
+
         function hideLoader() {
             document.getElementById('loader').classList.add('hidden');
         }
     </script>
 
+
     <script>
 document.addEventListener('DOMContentLoaded', function() {
+
 
     const setupModernSearch = (idPrefix) => {
         const searchInput = document.getElementById(`${idPrefix}SearchInput`);
@@ -152,11 +167,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchWrapper = document.querySelector(`.${idPrefix}-search-wrapper`);
         const inputWrapper = document.querySelector(`.${idPrefix}-search-input-wrapper`);
         const searchIcon = document.querySelector(`.${idPrefix}-search-icon`);
-        const dropdownContent = searchResults.querySelector(`.${idPrefix}-search-dropdown-content`);
+        const dropdownContent = searchResults?.querySelector(`.${idPrefix}-search-dropdown-content`);
 
-        if (!searchInput) return;
+
+        // Debug: Verificar que elementos existen
+        console.log('=== Debug ' + idPrefix + ' ===');
+        console.log('searchInput:', searchInput);
+        console.log('searchResults:', searchResults);
+        console.log('searchWrapper:', searchWrapper);
+        console.log('inputWrapper:', inputWrapper);
+        console.log('dropdownContent:', dropdownContent);
+
+
+        if (!searchInput || !searchResults || !dropdownContent) {
+            console.error(`Elementos faltantes para ${idPrefix}:`, {
+                searchInput: !!searchInput,
+                searchResults: !!searchResults,
+                dropdownContent: !!dropdownContent
+            });
+            return;
+        }
+
 
         let searchTimeout;
+
 
         function apiCall(query) {
            return fetch(`{{ route('products.search.ajax') }}?search=${encodeURIComponent(query)}`, {
@@ -168,26 +202,40 @@ document.addEventListener('DOMContentLoaded', function() {
            }).then(response => response.json());
         }
 
+
         searchInput.addEventListener('input', function() {
             const query = this.value.trim();
+            console.log('Input event:', query);
             clearTimeout(searchTimeout);
+           
             if (query.length < 2) {
                 hideResults();
                 return;
             }
-            inputWrapper.classList.add('animate-pulse');
+           
+            if (inputWrapper) {
+                inputWrapper.classList.add('animate-pulse');
+            }
+           
             searchTimeout = setTimeout(() => {
+                console.log('Haciendo búsqueda para:', query);
                 apiCall(query)
                 .then(data => {
+                    console.log('Resultados recibidos:', data);
                     displayResults(data.products);
-                    inputWrapper.classList.remove('animate-pulse');
+                    if (inputWrapper) {
+                        inputWrapper.classList.remove('animate-pulse');
+                    }
                 })
                 .catch(error => {
                     console.error('Error en la búsqueda AJAX:', error);
-                    inputWrapper.classList.remove('animate-pulse');
+                    if (inputWrapper) {
+                        inputWrapper.classList.remove('animate-pulse');
+                    }
                 });
             }, 300);
         });
+
 
         function displayResults(products) {
             if (!products || products.length === 0) {
@@ -202,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="flex items-center space-x-4">
                             ${product.image ?
                                 `<img src="/storage/${product.image}" alt="${product.name}" class="w-12 h-12 object-cover rounded-lg flex-shrink-0">` :
-                                `<div class="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center"><svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg></div>`
+                                `<div class="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center"><svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 002 2v12a2 2 0 002 2z"></path></svg></div>`
                             }
                             <div class="min-w-0">
                                 <div class="font-semibold text-gray-800 truncate">${product.name}</div>
@@ -216,13 +264,16 @@ document.addEventListener('DOMContentLoaded', function() {
             showResults();
         }
 
+
         function showResults() {
             searchResults.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
         }
 
+
         function hideResults() {
             searchResults.classList.add('opacity-0', 'invisible', 'pointer-events-none');
         }
+
 
         window.navigateToProduct = function(productId) {
             hideResults();
@@ -232,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = `/products/${productId}`;
         };
 
+
         document.addEventListener('click', function(event) {
             if (searchWrapper && !searchWrapper.contains(event.target)) {
                 hideResults();
@@ -239,8 +291,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+
+    // Configurar búsquedas
     setupModernSearch('modern');
-    setupModernSearch('modern-mobile');
+    setupModernSearch('modernMobile'); // Cambiado de 'modern-mobile' a 'modernMobile'
 });
 </script>
 </body>

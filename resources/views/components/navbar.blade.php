@@ -1,6 +1,7 @@
 <nav class="bg-[#212235] text-white" x-data="{ mobileOpen: false }">
     <div class="relative flex items-center justify-between container mx-auto px-4 py-3">
 
+
         <button
             @click="mobileOpen = true"
             class="lg:hidden text-white focus:outline-none">
@@ -23,8 +24,9 @@
             </a>
         </div>
 
+
         <div class="hidden lg:flex items-center space-x-6">
-            
+           
             <div class="modern-search-wrapper relative w-72 z-50">
                 <form class="search-form relative w-full" onsubmit="return false;">
                     <div class="modern-search-input-wrapper relative flex items-center bg-gray-900/50 rounded-full p-0.5 shadow-md hover:shadow-lg transition-all duration-300">
@@ -44,6 +46,7 @@
                 </div>
             </div>
 
+
             <a href="/"
             onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
             class="flex items-center hover:text-yellow-400 transition"
@@ -55,6 +58,8 @@
             </a>
 
 
+
+
             <a href="/nosotros"
             onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
             class="flex items-center hover:text-yellow-400 transition"
@@ -64,6 +69,8 @@
                 </svg>
                 <span>Nosotros</span>
             </a>
+
+
 
 
             <a href="/carrito" class="relative flex items-center hover:text-yellow-400 transition"
@@ -90,6 +97,7 @@
             @auth
                 <div x-data="{ adminSidebarOpen: false }" class="relative">
 
+
                 @if(Auth::user()->role->name === 'admin' || Auth::user()->role->name === 'superadmin')
                     <button
                         @click="adminSidebarOpen = true"
@@ -113,6 +121,7 @@
                     x-cloak>
                 </div>
 
+
                 <div x-show="adminSidebarOpen"
                     x-transition:enter="transform transition ease-out duration-300"
                     x-transition:enter-start="translate-x-full"
@@ -124,6 +133,7 @@
                     class="fixed right-0 top-0 z-50 w-72 h-full bg-gray-900 text-white shadow-xl overflow-y-auto"
                     x-cloak>
 
+
                     <div class="flex items-center justify-between p-4 border-b border-gray-800">
                         <div class="flex items-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -132,12 +142,14 @@
                             <span class="text-xl font-bold">Panel Admin</span>
                         </div>
 
+
                         <button @click="adminSidebarOpen = false" class="text-gray-400 hover:text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
+
 
                     <div class="p-4 bg-gray-800 rounded-lg mx-3 my-3">
                         <div class="flex items-center space-x-3 mb-3">
@@ -152,12 +164,14 @@
                             </div>
                         </div>
 
+
                         @if(Auth::user()->role->name === 'admin')
                             <div class="bg-red-500 text-white py-1 px-2 rounded font-bold text-sm">ADMIN</div>
                         @elseif (Auth::user()->role->name === 'superadmin')
                             <div class="bg-green-800 text-white py-1 px-2 rounded font-bold text-sm">Superadmin</div>
                         @endif
                     </div>
+
 
                     <div class="p-4">
                         <h3 class="text-xs uppercase text-gray-500 font-semibold mb-3">Panel de administración</h3>
@@ -242,6 +256,7 @@
             </div>
             @endauth
 
+
             @guest
                 <div class="flex items-center space-x-3">
                     <a href="/login" class="bg-yellow-500 text-black font-medium px-4 py-2 rounded-lg hover:bg-yellow-400 transition flex items-center"
@@ -263,6 +278,7 @@
         </div>
     </div>
 
+
     <div
         x-cloak
         class="fixed inset-0 z-50 lg:hidden"
@@ -274,7 +290,9 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0">
 
+
         <div class="absolute inset-0 bg-black bg-opacity-70" @click="mobileOpen = false"></div>
+
 
         <div
             class="absolute left-0 top-0 w-72 h-full bg-gray-900 text-white shadow-xl overflow-y-auto"
@@ -284,6 +302,7 @@
             x-transition:leave="transform transition ease-in duration-200"
             x-transition:leave-start="translate-x-0"
             x-transition:leave-end="-translate-x-full">
+
 
             <div class="flex flex-col h-full">
                 <div class="flex items-center justify-between p-4 border-b border-gray-700">
@@ -297,26 +316,28 @@
                     </button>
                 </div>
 
+
                 <div class="p-4 flex-1">
-                    
-                <div class="modern-mobile-search-wrapper relative w-full z-50 mt-6">
-                    <form class="modern-mobile-search-form relative w-full" onsubmit="return false;">
-                        <div class="modern-mobile-search-input-wrapper relative flex items-center bg-gray-800 rounded-full p-0.5 shadow-md">
-                            <svg class="modern-mobile-search-icon absolute left-4 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                   
+                <div class="modernMobile-search-wrapper relative w-full z-50 mt-6 mb-3">
+                    <form class="modernMobile-search-form relative w-full" onsubmit="return false;">
+                        <div class="modernMobile-search-input-wrapper relative flex items-center bg-gray-800 rounded-full p-0.5 shadow-md">
+                            <svg class="modernMobile-search-icon absolute left-4 w-5 h-5 text-gray-400 z-10" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <circle cx="11" cy="11" r="8"></circle>
                                 <path d="m21 21-4.35-4.35"></path>
                             </svg>
                             <input type="text" id="modernMobileSearchInput"
-                                class="modern-mobile-search-input w-full h-10 border-0 bg-transparent rounded-full pl-12 pr-4 text-white placeholder-gray-400 outline-none focus:bg-gray-700"
-                                placeholder="Buscar..." autocomplete="on">
+                                class="modernMobile-search-input w-full h-10 border-0 bg-transparent rounded-full pl-12 pr-4 text-white placeholder-gray-400 outline-none focus:bg-gray-700"
+                                placeholder="Buscar..." autocomplete="off">
                         </div>
                     </form>
                     <div id="modernMobileSearchResults" class="search-dropdown-mobile absolute top-full left-0 right-0 mt-2 opacity-0 invisible pointer-events-none transition-all duration-300">
-                        <div class="modern-mobile-search-dropdown-content bg-white/95 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl max-h-96 overflow-y-auto animate-slide-down">
+                        <div class="modernMobile-search-dropdown-content bg-white/95 backdrop-blur-xl border border-gray-200/50 rounded-2xl shadow-2xl max-h-96 overflow-y-auto animate-slide-down">
                             {{-- Resultados de búsqueda --}}
                         </div>
                     </div>
                 </div>
+
 
                     @auth
                         <div class="mb-6 p-3 bg-gray-800 rounded-lg">
@@ -332,6 +353,7 @@
                                 </div>
                             </div>
 
+
                             @if(Auth::user()->role->name === 'admin')
                                 <div class="bg-red-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">ADMIN</div>
                             @elseif (Auth::user()->role->name === 'superadmin')
@@ -340,6 +362,7 @@
                                 <div class="bg-blue-500 text-white py-1 px-2 rounded font-bold text-sm mb-2">USUARIO</div>
                             @endif
                         </div>
+
 
                         @if(Auth::user()->role->name === 'admin'|| Auth::user()->role->name === 'superadmin')
                             <div class="mb-6 space-y-2">
@@ -363,6 +386,7 @@
                                     <span>Gestionar Comentarios</span>
                                 </a>
 
+
                             </div>
                         @endif
                             @if( Auth::user()->role->name === 'superadmin')
@@ -378,8 +402,10 @@
                         @endif
                     @endauth
 
+
                     <div class="space-y-1">
                         <h3 class="text-xs uppercase text-gray-500 font-semibold mt-4 mb-2">Navegación</h3>
+
 
                         <a href="/" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"
                         onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
@@ -390,6 +416,7 @@
                             <span>Inicio</span>
                         </a>
 
+
                         <a href="/nosotros" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition
                         onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
                         ">
@@ -398,6 +425,7 @@
                             </svg>
                             <span>Nosotros</span>
                         </a>
+
 
                         <a href="/carrito" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"
                         onclick="event.preventDefault(); showLoader(); window.location.href=this.href;"
@@ -412,7 +440,7 @@
                                 </span>
                             @endif
                         </a>
-                        <a href="{{ route('ordenes.historial') }}" 
+                        <a href="{{ route('ordenes.historial') }}"
                             class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"
                             onclick="event.preventDefault(); showLoader(); window.location.href=this.href;">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -421,7 +449,7 @@
                                 <span>Historial de Compras</span>
                         </a>
                     </div>
-                        
+                       
                     @auth
                         <div class="mt-6 pt-6 border-t border-gray-700">
                             <a href="{{ route('perfil.editar') }}" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-800 transition"
@@ -431,6 +459,7 @@
                                 </svg>
                                 <span>Perfil de usuario</span>
                             </a>
+
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -443,6 +472,7 @@
                             </form>
                         </div>
                     @endauth
+
 
                     @guest
                         <div class="mt-6 space-y-3">
