@@ -17,7 +17,7 @@ class PagoController extends Controller
 
     public function confirmation()
     {
-        $ref_payco = request()->input('ref_payco');
+        $ref_payco = request()->input('ref_payco');           // código único de referencia, consultar detalles pago
         
         Log::info("=== INICIO WEBHOOK CONFIRMATION ===");
         Log::info("ref_payco recibido: $ref_payco");
@@ -136,7 +136,7 @@ class PagoController extends Controller
      * Método para limpiar el carrito desde el frontend después del pago
      * (Método alternativo - el webhook ya debería haber limpiado el carrito)
      */
-   
+
 
     /**
      * Método alternativo: verificar estado del pago

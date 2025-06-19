@@ -11,7 +11,7 @@ class CommentController extends Controller
 
     public function comentariosPorProducto($productoId)
 {
-    $comentarios = Comment::where('product_id', $productoId)
+    $comentarios = Comment::where('product_id', $productoId)     // Filtrar comentarios por ID del producto
         ->with('user')
         ->latest()
         ->get();
@@ -22,8 +22,8 @@ class CommentController extends Controller
 
     public function index(Request $request)
     {
-        $comentarios = Comment::with(['user', 'product.category'])
-            ->when($request->filled('categoria'), function ($query) use ($request) {
+        $comentarios = Comment::with(['user', 'product.category'])   // Obtener comentarios con usuario y categoría del producto
+            ->when($request->filled('categoria'), function ($query) use ($request) {  // Filtrar por categoría si se proporciona
                 $query->whereHas('product.category', function ($q) use ($request) {
                     $q->where('name', $request->categoria);
                 });
@@ -34,7 +34,7 @@ class CommentController extends Controller
         return view('admin.comentarios.index', compact('comentarios'));
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request, $id)           //Guardar un comentario para un producto específico
     {
         $validated = $request->validate([
             'content' => 'required|string|max:1000',
@@ -50,7 +50,7 @@ class CommentController extends Controller
             return response()->json(['message' => 'Ya has comentado este producto.'], 409);
         }
 
-        $comentario = new Comment();
+        $comentario = new Comment();                   //Guardar un nuevo comentario
         $comentario->product_id = $id;
         $comentario->user_id = $usuarioId;
         $comentario->content = $validated['content'];
@@ -65,7 +65,7 @@ class CommentController extends Controller
     {
         $comentario = Comment::findOrFail($id);
 
-        if (auth()->id() !== $comentario->user_id) {
+        if (auth()->id() !== $comentario->user_id) {         // Verificar si el usuario autenticado es el propietario del comentario
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
