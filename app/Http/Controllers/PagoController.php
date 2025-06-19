@@ -25,7 +25,7 @@ class PagoController extends Controller
         // Hacer consulta a la API de ePayco para obtener los detalles del pago
         $response = Http::get("https://secure.epayco.co/validation/v1/reference/$ref_payco");
 
-        if ($response->ok()) {
+        if ($response->ok()) {             // Verificar si la respuesta es exitosa
             $data = $response->json();
             Log::info("Respuesta de ePayco:", $data);
 
@@ -143,9 +143,9 @@ class PagoController extends Controller
      */
     public function checkPaymentStatus(Request $request)
     {
-        $ref_payco = $request->input('ref_payco');
+        $ref_payco = $request->input('ref_payco');      //valor de ref_payco
         
-        $response = Http::get("https://secure.epayco.co/validation/v1/reference/$ref_payco");
+        $response = Http::get("https://secure.epayco.co/validation/v1/reference/$ref_payco");       //información de la transacción
         
         if ($response->ok()) {
             $data = $response->json();

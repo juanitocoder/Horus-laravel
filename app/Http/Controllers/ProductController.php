@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
    public function index(Request $request)
 {
-    $search = $request->input('search');
+    $search = $request->input('search');         // Obtener búsqueda
 
     $productos = Product::when($search, function ($query, $search) {
         return $query->where('name', 'like', '%' . $search . '%');
@@ -19,13 +19,15 @@ class ProductController extends Controller
 
     return view('modules.dashboard.auth.home', compact('productos', 'search'));
 }
-public function show($id)
+public function show($id)     // Mostrar un producto específico
 {
     $product = Product::findOrFail($id);
     $productos = collect([$product]); // colección con un solo producto
     return view('products.show', compact('product', 'productos'));
 }
-public function search(Request $request, $category)
+
+
+public function search(Request $request, $category)   // Filtro por categoría
 {
     $search = $request->input('search');
 
@@ -139,7 +141,7 @@ public function searchAjax(Request $request)
     $product->promotion_id = $request->promotion_id;
 
     if($request->hasFile('image')){
-        $path = $request->file('image')->store('products', 'public');
+        $path = $request->file('image')->store('products', 'public');  // Guardar imagen
         $product->image = $path;
     }
 
