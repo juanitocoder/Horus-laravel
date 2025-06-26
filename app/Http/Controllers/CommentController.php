@@ -22,10 +22,10 @@ class CommentController extends Controller
 
     public function index(Request $request)
     {
-        $comentarios = Comment::with(['user', 'product.category'])   // Obtener comentarios con usuario y categoría del producto
+        $comentarios = Comment::with(['user', 'product.category'])   // Obtener comentarios
             ->when($request->filled('categoria'), function ($query) use ($request) {  // Filtrar por categoría si se proporciona
                 $query->whereHas('product.category', function ($q) use ($request) {
-                    $q->where('name', $request->categoria);
+                    $q->where('name', $request->categoria);         // nombre exacto de la categoría
                 });
             })
             ->latest()
@@ -63,9 +63,9 @@ class CommentController extends Controller
 
     public function update(Request $request, $id)
     {
-        $comentario = Comment::findOrFail($id);
+        $comentario = Comment::findOrFail($id);        // Buscar comentario
 
-        if (auth()->id() !== $comentario->user_id) {         // Verificar si el usuario autenticado es el propietario del comentario
+        if (auth()->id() !== $comentario->user_id) {         // Verificar el comentario
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -92,7 +92,7 @@ class CommentController extends Controller
         return response()->json(['message' => 'Comentario eliminado']);
     }
 
-    public function vistaComentarios(Request $request)
+    public function vistaComentarios(Request $request)     //vizualizar comentarios
     {
         $query = Comment::with(['user', 'product.category'])->latest();
 

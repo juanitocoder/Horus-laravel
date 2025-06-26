@@ -9,14 +9,14 @@ class CartController extends Controller
 {
     public function show()
     {
-        $cart = Auth::user()->cart()->with('items.product')->firstOrCreate();
+        $cart = Auth::user()->cart()->with('items.product')->firstOrCreate();     //Carrito del usuario
         return view('cart.show', compact('cart'));
     }
 
     public function add(Product $product)
     {
     $cart = Auth::user()->cart()->firstOrCreate();
-    $item = $cart->items()->where('product_id', $product->id)->first();
+    $item = $cart->items()->where('product_id', $product->id)->first();        // Buscar producto
     
     if ($item) {
         $item->quantity += 1;

@@ -14,6 +14,12 @@
             type: 'success', // 'success', 'error', 'info'
             timeout: null
         },
+
+        confirmacionSimple: {
+        visible: false,
+        id: null,
+    },
+    
         
         // Muestra una alerta dentro del modal
         showAlert(message, type = 'success') {
@@ -127,24 +133,33 @@
             });
         },
         eliminarComentario(id) {
-            if (!confirm('¿Estás seguro de que deseas eliminar este comentario?')) return;
+    this.confirmacionSimple.visible = true;
+    this.confirmacionSimple.id = id;
+},
 
-            fetch(`/comentarios/${id}`, {
-                method: 'DELETE',                                      //Peticion de eliminacion a laravel
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            })
-            .then(response => {
-                if (!response.ok) throw new Error('Error al eliminar el comentario');
-                this.productoActivo.comentarios = this.productoActivo.comentarios.filter(c => c.id !== id);
-                this.showAlert('Comentario eliminado correctamente.', 'success');
-            })
-            .catch(error => {
-                console.error(error);
-                this.showAlert('Error al eliminar el comentario', 'error');
-            });
+confirmarEliminacionSimple() {
+    const id = this.confirmacionSimple.id;
+
+    fetch(`/comentarios/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
         }
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Error al eliminar el comentario');
+        this.productoActivo.comentarios = this.productoActivo.comentarios.filter(c => c.id !== id);
+        this.showAlert('Comentario eliminado correctamente.', 'success');
+    })
+    .catch(error => {
+        this.showAlert('Error al eliminar el comentario', 'error');
+    })
+    .finally(() => {
+        this.confirmacionSimple.visible = false;
+        this.confirmacionSimple.id = null;
+    });
+},
+
     }"
     x-cloak
 >
@@ -489,7 +504,10 @@
                                                 <template x-if="comentario.user_id === userId">
                                                     <div class="pt-2 border-t border-blue-200 flex justify-end gap-6">
                                                         <button @click="iniciarEdicion(comentario)" class="text-blue-600 hover:underline text-sm">Editar</button>
-                                                        <button @click="eliminarComentario(comentario.id)" class="text-red-600 hover:underline text-sm">Eliminar</button>
+                                                        <button @click="eliminarComentario(comentario.id)" class="text-red-600 hover:underline text-sm">
+                                                            Eliminar
+                                                        </button>
+
                                                     </div>
                                                 </template>
                                             </div>
@@ -498,6 +516,20 @@
                                 </template>  
                             </div>
                         </template>
+
+                        <!-- Alerta de confirmación visual -->
+<div x-show="confirmacionSimple.visible" x-cloak class="mt-4 p-4 bg-white border border-gray-300 rounded-lg shadow text-center">
+    <p class="text-gray-800 font-medium mb-3">¿Estás seguro de que deseas eliminar este comentario?</p>
+    <div class="flex justify-center gap-4">
+        <button @click="confirmarEliminacionSimple()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-500">
+            Eliminar
+        </button>
+        <button @click="confirmacionSimple.visible = false" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+            Cancelar
+        </button>
+    </div>
+</div>
+
                         <template x-if="!productoActivo?.comentarios?.length">
                             <div class="text-gray-500 text-center py-4">
                                 No hay comentarios aún. ¡Sé el primero en comentar!
