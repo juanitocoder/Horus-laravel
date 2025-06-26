@@ -1,0 +1,20 @@
+[phases.setup]
+nixPkgs = [
+  "php",
+  "php-cli",
+  "php-curl",
+  "php-mbstring",
+  "php-mysql",
+  "php-dom",
+  "php-bcmath",
+  "php-sodium",
+  "unzip"
+]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[start]
+cmd = "php -S 0.0.0.0:$PORT -t public"
