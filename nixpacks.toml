@@ -10,7 +10,7 @@ nixPkgs = [
   "php-bcmath",
   "php-sodium",
   "unzip",
-  "composer"
+
 ]
 
 [start]
