@@ -25,13 +25,13 @@ use App\Http\Controllers\InvoiceController;
 
 
 // Rutas principales
-Route::get('/', [HomeController::class, 'index']);
+//Route::get('/', [HomeController::class, 'index']);//
 Route::get('/login', [Authcontroller::class, 'login'])->name('login');
 Route::get('/registro', [Authcontroller::class, 'register'])->name('registro');
 Route::post('/registrar', [Authcontroller::class, 'registrar'])->name('registrar');
 Route::post('/logear', [Authcontroller::class, 'logear'])->name('logear');
 Route::post('/logout', [Authcontroller::class, 'logout'])->name('logout');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');//
 
 
 // Productos
