@@ -1,0 +1,17 @@
+[phases.setup]
+
+nixPkgs = [
+  "php",
+  "php-cli",
+  "php-curl",
+  "php-mbstring",
+  "php-mysql",
+  "php-dom",
+  "php-bcmath",
+  "php-sodium",
+  "unzip",
+  "composer"
+]
+
+[start]
+cmd = "php artisan serve --host=0.0.0.0 --port=$PORT"

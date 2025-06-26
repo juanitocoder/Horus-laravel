@@ -38,7 +38,7 @@ class PagoController extends Controller
             Log::info("Estado del pago: $x_response");
             Log::info("Email del cliente: $x_customer_email");
 
-            // ✅ Guardar la orden si fue APROBADA
+            // Guardar la orden si fue APROBADA
             if ($x_response == 'Aceptada') {
                 
                 // Buscar el usuario por email
